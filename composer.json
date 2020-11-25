@@ -1,0 +1,29 @@
+{
+    "name": "lukeraymonddowning/honey",
+    "description": "Reduce spam on your Laravel site.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "luke",
+            "email": "lukeraymonddowning@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "7.4",
+        "illuminate/support": "^8.16"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lukeraymonddowning\\Honey\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lukeraymonddowning\\Honey\\Tests\\": "tests"
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.4"
+    }
+}
