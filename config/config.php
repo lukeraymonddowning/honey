@@ -26,7 +26,8 @@ return [
      * --------------------------------------------------------------------------
      *
      * Here you can alter how long, in seconds, must have passed between
-     * a form loading and the request coming back in.
+     * a form loading and the request coming back in. This only applies
+     * if you have `MinimumTimePassedCheck` enabled in `checks`.
      */
     'minimum_time_passed' => 3,
 
