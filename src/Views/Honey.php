@@ -20,12 +20,13 @@ class Honey extends Component
     public function render()
     {
         return <<<'blade'
-            <div style="display: block;">
-                <input type="text" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
-                <input type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ $timeOfPageLoadValue() }}">
-                <input x-data="" x-init="setTimeout(function() {if ($el.value.length == 0) $el.value = '{{ $alpineValue() }}'}, {{ $alpineTimeout() }})" type="text" name="{{ $inputNameSelector->getAlpineInputName() }}" value="" required>
-            </div>     
-        blade;
+                <div style="display: {{ isset($attributes['debug']) ? 'block' : 'none' }};">
+                    <input type="text" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
+                    <input type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ $timeOfPageLoadValue() }}">
+                    <input x-data="" x-init="setTimeout(function() {if ($el.value.length == 0) $el.value = '{{ $alpineValue() }}'}, {{ $alpineTimeout() }})" type="text" name="{{ $inputNameSelector->getAlpineInputName() }}" value="" required>
+                    {{ $slot }}
+                </div>     
+            blade;
     }
 
     public function timeOfPageLoadValue()
