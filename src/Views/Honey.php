@@ -21,7 +21,7 @@ class Honey extends Component
         return <<<'blade'
             <div style="display: block;">
                 <input type="text" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
-                <input type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ microtime(true) }}">
+                <input type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ Crypt::encrypt(microtime(true)) }}">
             </div>     
         blade;
     }

@@ -3,6 +3,7 @@
 namespace Lukeraymonddowning\Honey\Tests;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Lukeraymonddowning\Honey\Facades\Honey;
 use Lukeraymonddowning\Honey\Http\Middleware\PreventSpam;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -46,7 +47,7 @@ class MiddlewareTest extends TestCase
 
     protected static function request($attributes = [], $skip = [])
     {
-        $attributes = array_merge(['honey_present' => '', 'honey_time' => microtime(true) - 5], $attributes);
+        $attributes = array_merge(['honey_present' => '', 'honey_time' => Crypt::encrypt(microtime(true) - 5)], $attributes);
 
         foreach ($skip as $key) {
             unset($attributes[$key]);
@@ -59,7 +60,7 @@ class MiddlewareTest extends TestCase
     public function it_has_a_time_check()
     {
         $this->middleware->handle(
-            static::request(['honey_time' => microtime(true) - 10]),
+            static::request(['honey_time' => Crypt::encrypt(microtime(true) - 10)]),
             function ($request) {
                 $this->assertNotEmpty($request->honey_time);
             }
@@ -67,7 +68,7 @@ class MiddlewareTest extends TestCase
 
         try {
             $this->middleware->handle(
-                static::request(['honey_time' => microtime(true) - 2]),
+                static::request(['honey_time' => Crypt::encrypt(microtime(true) - 2)]),
                 function ($request) {
                     $this->fail("This request should have been aborted");
                 }
@@ -85,7 +86,7 @@ class MiddlewareTest extends TestCase
 
         try {
             $this->middleware->handle(
-                static::request(['honey_time' => microtime(true) - 2]),
+                static::request(['honey_time' => Crypt::encrypt(microtime(true) - 2)]),
                 function ($request) {
                     $this->fail("This request should have been aborted");
                 }

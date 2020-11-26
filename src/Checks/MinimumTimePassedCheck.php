@@ -4,6 +4,7 @@
 namespace Lukeraymonddowning\Honey\Checks;
 
 
+use Illuminate\Support\Facades\Crypt;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 
 class MinimumTimePassedCheck implements Check
@@ -22,7 +23,12 @@ class MinimumTimePassedCheck implements Check
 
     protected function getTimePassed($data)
     {
-        return microtime(true) - $data[$this->inputNameSelector->getTimeOfPageLoadInputName()];
+        return microtime(true) - $this->getDecryptedValue($data);
+    }
+
+    protected function getDecryptedValue($data)
+    {
+        return Crypt::decrypt($data[$this->inputNameSelector->getTimeOfPageLoadInputName()]);
     }
 
     protected function getConfiguredMinimumTime()
