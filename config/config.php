@@ -109,6 +109,7 @@ return [
      */
     'input_values' => [
         'alpine' => Lukeraymonddowning\Honey\InputValues\AlpineInputValue::class,
+        'time_of_page_load' => Lukeraymonddowning\Honey\InputValues\TimeOfPageLoadValue::class,
     ],
 
 ];

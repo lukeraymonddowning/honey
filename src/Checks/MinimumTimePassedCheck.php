@@ -5,8 +5,8 @@ namespace Lukeraymonddowning\Honey\Checks;
 
 
 use Exception;
-use Illuminate\Support\Facades\Crypt;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
+use Lukeraymonddowning\Honey\InputValues\Values;
 
 class MinimumTimePassedCheck implements Check
 {
@@ -20,24 +20,9 @@ class MinimumTimePassedCheck implements Check
     public function passes($data): bool
     {
         try {
-            return $this->getTimePassed($data) >= $this->getConfiguredMinimumTime();
+            return Values::timeOfPageLoad()->checkValue($data[$this->inputNameSelector->getTimeOfPageLoadInputName()]);
         } catch (Exception $exception) {
             return false;
         }
-    }
-
-    protected function getTimePassed($data)
-    {
-        return microtime(true) - $this->getDecryptedValue($data);
-    }
-
-    protected function getDecryptedValue($data)
-    {
-        return Crypt::decrypt($data[$this->inputNameSelector->getTimeOfPageLoadInputName()]);
-    }
-
-    protected function getConfiguredMinimumTime()
-    {
-        return config('honey.minimum_time_passed');
     }
 }

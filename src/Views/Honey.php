@@ -22,10 +22,15 @@ class Honey extends Component
         return <<<'blade'
             <div style="display: block;">
                 <input type="text" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
-                <input type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ Crypt::encrypt(microtime(true)) }}">
+                <input type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ $timeOfPageLoadValue() }}">
                 <input x-data="" x-init="setTimeout(function() {if ($el.value.length == 0) $el.value = '{{ $alpineValue() }}'}, {{ $alpineTimeout() }})" type="text" name="{{ $inputNameSelector->getAlpineInputName() }}" value="" required>
             </div>     
         blade;
+    }
+
+    public function timeOfPageLoadValue()
+    {
+        return Values::timeOfPageLoad()->getValue();
     }
 
     public function alpineValue()
