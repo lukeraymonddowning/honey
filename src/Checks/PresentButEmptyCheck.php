@@ -30,7 +30,7 @@ class PresentButEmptyCheck implements Check
 
     protected function notInRequest($data)
     {
-        return !isset($data[$this->inputNameSelector->getPresentButEmptyInputName()]);
+        return !array_key_exists($this->inputNameSelector->getPresentButEmptyInputName(), $data);
     }
 
     protected function isFilled($data)

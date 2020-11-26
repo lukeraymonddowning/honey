@@ -79,7 +79,7 @@ class HoneyServiceProvider extends ServiceProvider
 
         if (Features::blockSpammersGloballyIsEnabled()) {
             $kernel = $this->app->make(Kernel::class);
-            $kernel->pushMiddleware('honey-block');
+            $kernel->pushMiddleware(BlockSpammers::class);
         }
     }
 

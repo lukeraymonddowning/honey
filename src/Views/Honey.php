@@ -9,7 +9,7 @@ use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 
 class Honey extends Component
 {
-    protected InputNameSelector $inputNameSelector;
+    public InputNameSelector $inputNameSelector;
 
     public function __construct(InputNameSelector $inputNameSelector)
     {
@@ -19,9 +19,9 @@ class Honey extends Component
     public function render()
     {
         return <<<'blade'
-            <div style="display: none;">
+            <div style="display: block;">
                 <input type="text" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
-                <input type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ microtime() }}">
+                <input type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ microtime(true) }}">
             </div>     
         blade;
     }

@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "7.4",
+        "php": "^7.4",
         "illuminate/support": "^8.16"
     },
     "autoload": {
@@ -26,5 +26,15 @@
     },
     "require-dev": {
         "orchestra/testbench": "^6.4"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lukeraymonddowning\\Honey\\Providers\\HoneyServiceProvider"
+            ],
+            "aliases": {
+                "Honey": "Lukeraymonddowning\\Honey\\Facades\\Honey"
+            }
+        }
     }
 }
