@@ -18,6 +18,11 @@ class SpammerFactory extends Factory
         ];
     }
 
+    public function ip($address)
+    {
+        return $this->state(['ip_address' => $address]);
+    }
+
     public function blocked()
     {
         return $this->state(['blocked_at' => now()]);

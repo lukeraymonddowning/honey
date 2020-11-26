@@ -15,7 +15,8 @@ return [
      * feature offered and the steps required to get it set up.
      */
     'features' => [
-        Features::spammerIpTracking()
+        Features::spammerIpTracking(),
+        Features::blockSpammersGlobally(),
     ],
 
     /**
@@ -30,6 +31,7 @@ return [
      * @see \Lukeraymonddowning\Honey\Checks\Check
      */
     'checks' => [
+        Lukeraymonddowning\Honey\Checks\UserIsBlockedSpammerCheck::class,
         Lukeraymonddowning\Honey\Checks\PresentButEmptyCheck::class,
         Lukeraymonddowning\Honey\Checks\MinimumTimePassedCheck::class,
     ],

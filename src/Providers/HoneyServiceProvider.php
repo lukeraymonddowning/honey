@@ -4,11 +4,13 @@
 namespace Lukeraymonddowning\Honey\Providers;
 
 
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Lukeraymonddowning\Honey\Features;
 use Lukeraymonddowning\Honey\Honey;
+use Lukeraymonddowning\Honey\Http\Middleware\BlockSpammers;
 use Lukeraymonddowning\Honey\Http\Middleware\PreventSpam;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 use Lukeraymonddowning\Honey\InputNameSelectors\StaticInputNameSelector;
@@ -73,6 +75,12 @@ class HoneyServiceProvider extends ServiceProvider
     {
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('honey', PreventSpam::class);
+        $router->aliasMiddleware('honey-block', BlockSpammers::class);
+
+        if (Features::blockSpammersGloballyIsEnabled()) {
+            $kernel = $this->app->make(Kernel::class);
+            $kernel->pushMiddleware('honey-block');
+        }
     }
 
 }
