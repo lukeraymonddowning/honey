@@ -3,6 +3,7 @@
 namespace Lukeraymonddowning\Honey\Tests;
 
 use Illuminate\Http\Request;
+use Lukeraymonddowning\Honey\Facades\Honey;
 use Lukeraymonddowning\Honey\Http\Middleware\PreventSpam;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -75,6 +76,23 @@ class MiddlewareTest extends TestCase
             $this->assertEquals(422, $exception->getStatusCode());
         }
 
+    }
+
+    /** @test */
+    public function the_handler_can_be_configured()
+    {
+        Honey::failUsing(fn($request) => abort(404, "Nothing to see here!"));
+
+        try {
+            $this->middleware->handle(
+                static::request(['honey_time' => microtime(true) - 2]),
+                function ($request) {
+                    $this->fail("This request should have been aborted");
+                }
+            );
+        } catch (HttpException $exception) {
+            $this->assertEquals(404, $exception->getStatusCode());
+        }
     }
 
     protected function setUp(): void

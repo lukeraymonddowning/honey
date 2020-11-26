@@ -4,26 +4,33 @@
 namespace Lukeraymonddowning\Honey;
 
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class Honey
 {
-    public static $minimumTimeInSeconds;
     protected static Collection $checks;
+    protected static $failUsing;
 
-    public function __construct(Collection $checks)
+    public function __construct(Collection $checks, callable $failUsing)
     {
         static::$checks = $checks;
-    }
-
-    public static function setMinimumTimePassed($timeInSeconds)
-    {
-        static::$minimumTimeInSeconds = $timeInSeconds;
+        static::$failUsing = $failUsing;
     }
 
     public function check($data)
     {
         return static::$checks->map->passes($data)->filter()->count() === static::$checks->count();
+    }
+
+    public static function failUsing(callable $function)
+    {
+        static::$failUsing = $function;
+    }
+
+    public static function fail(Request $request)
+    {
+        return call_user_func(static::$failUsing, $request);
     }
 
 }

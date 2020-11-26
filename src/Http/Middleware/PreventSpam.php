@@ -13,7 +13,7 @@ class PreventSpam
     public function handle(Request $request, callable $next)
     {
         if (!Honey::check($request->all())) {
-            abort(422, "You shall not pass!");
+            Honey::fail($request);
         }
 
         return $next($request);
