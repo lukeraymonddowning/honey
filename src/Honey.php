@@ -4,7 +4,6 @@
 namespace Lukeraymonddowning\Honey;
 
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class Honey
@@ -28,9 +27,9 @@ class Honey
         static::$failUsing = $function;
     }
 
-    public static function fail(Request $request)
+    public static function fail()
     {
-        return call_user_func(static::$failUsing, $request);
+        return app()->call(static::$failUsing);
     }
 
 }

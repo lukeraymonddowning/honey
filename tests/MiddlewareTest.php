@@ -81,7 +81,7 @@ class MiddlewareTest extends TestCase
     /** @test */
     public function the_handler_can_be_configured()
     {
-        Honey::failUsing(fn($request) => abort(404, "Nothing to see here!"));
+        Honey::failUsing(fn() => abort(404, "Nothing to see here!"));
 
         try {
             $this->middleware->handle(

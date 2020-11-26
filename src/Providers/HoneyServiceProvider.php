@@ -17,7 +17,7 @@ class HoneyServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton('honey', fn() => new Honey(static::getChecks(), self::defaultWayOfFailing()));
+        $this->app->singleton('honey', fn() => new Honey(static::getChecks(), self::defaultMethodOfFailing()));
         $this->app->singleton(InputNameSelector::class, fn() => app(static::getInputNameSelectorClass()));
         $this->app->singleton(
             StaticInputNameSelector::class,
@@ -30,7 +30,7 @@ class HoneyServiceProvider extends ServiceProvider
         return collect(config('honey.checks', []))->map(fn($class) => app($class));
     }
 
-    protected static function defaultWayOfFailing()
+    protected static function defaultMethodOfFailing()
     {
         return fn() => abort(422, "You shall not pass!");
     }
