@@ -34,6 +34,7 @@ return [
         Lukeraymonddowning\Honey\Checks\UserIsBlockedSpammerCheck::class,
         Lukeraymonddowning\Honey\Checks\PresentButEmptyCheck::class,
         Lukeraymonddowning\Honey\Checks\MinimumTimePassedCheck::class,
+//        Lukeraymonddowning\Honey\Checks\AlpineInputFilledCheck::class,
     ],
 
     /**
@@ -42,8 +43,8 @@ return [
      * --------------------------------------------------------------------------
      *
      * Here you can alter how long, in seconds, must have passed between
-     * a form loading and the request coming back in. This only applies
-     * if you have `MinimumTimePassedCheck` enabled in `checks`.
+     * a form loading and the request coming back in if you have either
+     * `MinimumTimePassedCheck` or `AlpineInputFilledCheck` enabled.
      */
     'minimum_time_passed' => 3,
 
@@ -90,11 +91,24 @@ return [
                 'names' => [
                     'present_but_empty' => 'honey_present',
                     'time_of_page_load' => 'honey_time',
+                    'alpine_input' => 'honey_alpine',
                 ]
             ],
 
 
         ]
+    ],
+
+    /**
+     * --------------------------------------------------------------------------
+     * Input values
+     * --------------------------------------------------------------------------
+     *
+     * The honeypot inputs in Honey can be configured to provide
+     * different values. Not all inputs support this feature.
+     */
+    'input_values' => [
+        'alpine' => Lukeraymonddowning\Honey\InputValues\AlpineInputValue::class,
     ],
 
 ];

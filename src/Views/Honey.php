@@ -6,6 +6,7 @@ namespace Lukeraymonddowning\Honey\Views;
 
 use Illuminate\View\Component;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
+use Lukeraymonddowning\Honey\InputValues\Values;
 
 class Honey extends Component
 {
@@ -22,7 +23,18 @@ class Honey extends Component
             <div style="display: block;">
                 <input type="text" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
                 <input type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ Crypt::encrypt(microtime(true)) }}">
+                <input x-data="" x-init="setTimeout(function() {if ($el.value.length == 0) $el.value = '{{ $alpineValue() }}'}, {{ $alpineTimeout() }})" type="text" name="{{ $inputNameSelector->getAlpineInputName() }}" value="" required>
             </div>     
         blade;
+    }
+
+    public function alpineValue()
+    {
+        return Values::alpine()->getValue();
+    }
+
+    public function alpineTimeout()
+    {
+        return config('honey.minimum_time_passed') * 1000;
     }
 }

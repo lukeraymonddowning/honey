@@ -22,4 +22,9 @@ class StaticInputNameSelector implements InputNameSelector
     {
         return $this->inputNames['time_of_page_load'];
     }
+
+    public function getAlpineInputName(): string
+    {
+        return $this->inputNames['alpine_input'];
+    }
 }

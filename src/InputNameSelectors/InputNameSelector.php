@@ -9,4 +9,6 @@ interface InputNameSelector
     public function getPresentButEmptyInputName(): string;
 
     public function getTimeOfPageLoadInputName(): string;
+
+    public function getAlpineInputName(): string;
 }
