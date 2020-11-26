@@ -7,6 +7,7 @@ namespace Lukeraymonddowning\Honey\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Lukeraymonddowning\Honey\Features;
 use Lukeraymonddowning\Honey\Honey;
 use Lukeraymonddowning\Honey\Http\Middleware\PreventSpam;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
@@ -43,21 +44,29 @@ class HoneyServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'honey');
+
         if ($this->app->runningInConsole()) {
-            static::publish();
+            $this->console();
         }
 
-        $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'honey');
         $this->registerMiddleware();
 
         Blade::component(HoneyComponent::class, 'honey');
     }
 
-    public static function publish()
+    public function console()
     {
-        return [
-            __DIR__ . '/../../config/config.php' => config_path('honey.php'),
-        ];
+        if (Features::spammerIpTrackingIsEnabled()) {
+            $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+        }
+
+        $this->publishes(
+            [
+                __DIR__ . '/../../config/config.php' => config_path('honey.php'),
+            ],
+            'honey'
+        );
     }
 
     protected function registerMiddleware()

@@ -1,8 +1,22 @@
 <?php
 
+use Lukeraymonddowning\Honey\Features;
 use Lukeraymonddowning\Honey\InputNameSelectors\StaticInputNameSelector;
 
 return [
+
+    /**
+     * --------------------------------------------------------------------------
+     * Features
+     * --------------------------------------------------------------------------
+     *
+     * Here you can enable or disable different features that Honey provides.
+     * You should read the documentation for a more detailed look at each
+     * feature offered and the steps required to get it set up.
+     */
+    'features' => [
+        Features::spammerIpTracking()
+    ],
 
     /**
      * --------------------------------------------------------------------------
@@ -30,6 +44,27 @@ return [
      * if you have `MinimumTimePassedCheck` enabled in `checks`.
      */
     'minimum_time_passed' => 3,
+
+    /**
+     * --------------------------------------------------------------------------
+     * Spammer blocking
+     * --------------------------------------------------------------------------
+     *
+     * If you have the 'spammerIpTracking' feature enabled, Honey
+     * will automatically track and block repeat spammers from
+     * your application. You must have a db connection.
+     */
+    'spammer_blocking' => [
+        /**
+         * The db table name that should be used to track spammers
+         */
+        'table_name' => 'spammers',
+        /**
+         * The number of times a request from an ip address can be classed
+         * as spam before they are added to the block list.
+         */
+        'maximum_attempts' => 5
+    ],
 
     /**
      * --------------------------------------------------------------------------

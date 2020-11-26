@@ -20,7 +20,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Lukeraymonddowning\\Honey\\Tests\\": "tests"
+            "Lukeraymonddowning\\Honey\\Tests\\": "tests",
+            "Lukeraymonddowning\\Honey\\Tests\\Factories\\": "database/factories"
         }
     },
     "require-dev": {
