@@ -1,7 +1,5 @@
 # Honey
 
-![Build Status](https://app.chipperci.com/projects/b8044315-6754-495d-b17f-5c1c51d71ef7/status/master)
-
 A spam prevention package for Laravel, providing honeypot techniques, ip blocking and beautifully simple 
 [Recaptcha](https://developers.google.com/recaptcha) integration. Stop spam. Use Honey.
 
