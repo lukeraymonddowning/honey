@@ -10,11 +10,11 @@ use Lukeraymonddowning\Honey\Exceptions\RecaptchaFailedException;
 class Recaptcha
 {
     const URL = "https://www.google.com/recaptcha/api/siteverify";
-    protected $response;
+    protected RecaptchaResponse $response;
 
     public function checkToken($token, $ip = null)
     {
-        return $this->response ??= static::getResponse($token, $ip);
+        return $this->response ??= new RecaptchaResponse(static::getResponse($token, $ip));
     }
 
     protected static function getResponse($token, $ip = null)

@@ -7,6 +7,7 @@ namespace Lukeraymonddowning\Honey\Tests;
 use Illuminate\Support\Facades\Http;
 use Lukeraymonddowning\Honey\Exceptions\RecaptchaFailedException;
 use Lukeraymonddowning\Honey\Facades\Honey;
+use Lukeraymonddowning\Honey\RecaptchaResponse;
 
 class RecaptchaTokenTest extends TestCase
 {
@@ -24,6 +25,23 @@ class RecaptchaTokenTest extends TestCase
         ]]);
 
         $this->assertEquals(0.8, Honey::recaptcha()->checkToken('foobar')['score']);
+        $this->assertInstanceOf(RecaptchaResponse::class, Honey::recaptcha()->checkToken('foobar'));
+    }
+
+    /** @test */
+    public function it_can_chain_recaptcha_methods_after_the_check()
+    {
+        Http::fake(['*' => [
+            'success' => true,
+            'score' => 0.2,
+            'action' => 'submit',
+            'challenge_ts' => now()->toIso8601String(),
+            'hostname' => config('app.url'),
+            'error-codes' => []
+        ]]);
+
+        $this->assertTrue(Honey::recaptcha()->checkToken('foobar')->isSpam());
+        $this->assertInstanceOf(RecaptchaResponse::class, Honey::recaptcha()->checkToken('foobar')->response());
     }
 
     /** @test */
