@@ -185,3 +185,7 @@ Honey has a full test suite. Go ahead and run it for yourself!
 php vendor/bin/phpunit
 ```
 
+## Accreditations
+
+My main impetus for creating this package came after watching Jefferey Way's brilliant course on Spam prevention
+on Laracasts. If you don't have a Laracasts subscription, you should get one.
