@@ -1,4 +1,7 @@
 # Honey
+
+![PhpUnit Tests](https://github.com/lukeraymonddowning/honey/workflows/PhpUnit%20Tests/badge.svg)
+
 A spam prevention package for Laravel, providing honeypot techniques, ip blocking and beautifully simple 
 [Recaptcha](https://developers.google.com/recaptcha) integration. Stop spam. Use Honey.
 
