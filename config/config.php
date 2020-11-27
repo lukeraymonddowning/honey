@@ -1,5 +1,9 @@
 <?php
 
+use Lukeraymonddowning\Honey\Checks\AlpineInputFilledCheck;
+use Lukeraymonddowning\Honey\Checks\MinimumTimePassedCheck;
+use Lukeraymonddowning\Honey\Checks\PresentButEmptyCheck;
+use Lukeraymonddowning\Honey\Checks\UserIsBlockedSpammerCheck;
 use Lukeraymonddowning\Honey\Features;
 use Lukeraymonddowning\Honey\InputNameSelectors\StaticInputNameSelector;
 
@@ -31,10 +35,10 @@ return [
      * @see \Lukeraymonddowning\Honey\Checks\Check
      */
     'checks' => [
-        Lukeraymonddowning\Honey\Checks\UserIsBlockedSpammerCheck::class,
-        Lukeraymonddowning\Honey\Checks\PresentButEmptyCheck::class,
-        Lukeraymonddowning\Honey\Checks\MinimumTimePassedCheck::class,
-//        Lukeraymonddowning\Honey\Checks\AlpineInputFilledCheck::class,
+        UserIsBlockedSpammerCheck::class,
+        PresentButEmptyCheck::class,
+        MinimumTimePassedCheck::class,
+        // AlpineInputFilledCheck::class,
     ],
 
     /**
@@ -131,7 +135,7 @@ return [
          * user. This informs the recaptcha middleware of
          * minimum score a user can get to pass.
          */
-        'minimum_score' => 0.3,
+        'minimum_score' => env("RECAPTCHA_MINIMUM_SCORE", 0.3),
     ]
 
 ];
