@@ -26,6 +26,7 @@ Using Honey couldn't be easier. Go to a `<form>` in your blade files and add `<x
     @csrf
     <input type="email" placeholder="Your email" required />
     <x-honey/>
+    <button type="submit">Subscribe!</button>
 </form>
 ```
 
@@ -69,6 +70,7 @@ We'll use the example from earlier:
     <input type="email" placeholder="Your email" required />
     <x-honey/>
     <x-honey-recaptcha/> 
+    <button type="submit">Subscribe!</button>
 </form>
 ```
 
