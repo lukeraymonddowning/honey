@@ -75,6 +75,12 @@ We'll use the example from earlier:
 ```
 
 As a note, you can use `<x-honey-recaptcha/>` alongside `<x-honey/>`, or separately. You do you.
+To allow you to track different action types in your Google console, you can pass an action attribute
+to the recaptcha blade component.
+
+```blade
+<x-honey-recaptcha action="signup"/>
+```
 
 You now have 2 options. You can allow Honey to make the Recaptcha request for you and fail automatically if it
 detects a bot, or you can do it manually (although its basically magic, so don't worry).
@@ -119,6 +125,7 @@ If you want to quickly ascertain if the request is spam based on your configured
 $token = request()->honey_recapture_token;
 $probablyABot = Honey::recaptcha()->check($token)->isSpam();
 ``` 
+
 ### Configuring Honey
 Honey is built with a great set of defaults, but we understand that one size rarely fits all. That's why we provide
 plenty of config options for you. You can access them from the `honey.php` config file. Let's look at the

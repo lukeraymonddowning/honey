@@ -23,7 +23,7 @@ class Recaptcha extends Component
             @endonce
             <input x-data="" 
                    x-init="$el.form.onsubmit = (e) => { e.preventDefault(); grecaptcha.ready(() => {
-                        grecaptcha.execute('{{ $siteKey() }}', { action: 'submit' }).then(token => {
+                        grecaptcha.execute('{{ $siteKey() }}', { action: '{{ $attributes['action'] ?? 'submit' }}' }).then(token => {
                             $el.value = token;
                             @isset($attributes['x-callback'])
                                 {{ $attributes['x-callback'] }}
