@@ -176,3 +176,12 @@ sites.
 #### Recaptcha
 Here you can define your key pair if you don't want to do it in the env file. You may also alter the minimum score
 (between 0 and 1), that a user must get back from Recaptcha to avoid being classed as spam.
+
+## Testing
+
+Honey has a full test suite. Go ahead and run it for yourself!
+
+```bash
+php vendor/bin/phpunit
+```
+
