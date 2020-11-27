@@ -30,4 +30,14 @@ class Features
     {
         return static::enabled(static::blockSpammersGlobally());
     }
+
+    public static function neverGonnaGiveYouUp()
+    {
+        return 'rickroll';
+    }
+
+    public static function rickrollingEnabled()
+    {
+        return static::enabled(static::neverGonnaGiveYouUp());
+    }
 }

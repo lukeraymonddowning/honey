@@ -5,6 +5,7 @@ namespace Lukeraymonddowning\Honey\Providers;
 
 
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -39,7 +40,13 @@ class HoneyServiceProvider extends ServiceProvider
 
     protected static function defaultMethodOfFailing()
     {
-        return fn() => abort(422, "You shall not pass!");
+        return function() {
+            if (Features::rickrollingEnabled()) {
+                throw new HttpResponseException(redirect('https://youtu.be/dQw4w9WgXcQ'));
+            }
+
+            abort(422, "You shall not pass!");
+        };
     }
 
     protected static function getInputNameSelectorClass()
