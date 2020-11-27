@@ -16,15 +16,18 @@ use Lukeraymonddowning\Honey\Http\Middleware\CheckRecaptchaToken;
 use Lukeraymonddowning\Honey\Http\Middleware\PreventSpam;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 use Lukeraymonddowning\Honey\InputNameSelectors\StaticInputNameSelector;
-use Lukeraymonddowning\Honey\Views\Honey as HoneyComponent;
 use Lukeraymonddowning\Honey\Recaptcha;
+use Lukeraymonddowning\Honey\Views\Honey as HoneyComponent;
 use Lukeraymonddowning\Honey\Views\Recaptcha as RecaptchaComponent;
 
 class HoneyServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton('honey', fn() => new Honey(static::getChecks(), self::defaultMethodOfFailing()));
+        $this->app->singleton(
+            'honey',
+            fn() => new Honey(static::getChecks(), self::defaultMethodOfFailing(), config('honey'))
+        );
         $this->app->singleton('honey-recaptcha', fn() => app(Recaptcha::class));
         $this->app->singleton(InputNameSelector::class, fn() => app(static::getInputNameSelectorClass()));
         $this->app->singleton(
@@ -40,7 +43,7 @@ class HoneyServiceProvider extends ServiceProvider
 
     protected static function defaultMethodOfFailing()
     {
-        return function() {
+        return function () {
             if (Features::rickrollingEnabled()) {
                 throw new HttpResponseException(redirect('https://youtu.be/dQw4w9WgXcQ'));
             }

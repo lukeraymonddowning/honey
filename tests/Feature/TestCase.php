@@ -20,6 +20,7 @@ abstract class TestCase extends HoneyTestCase
 
     protected function getEnvironmentSetUp($app)
     {
+        $app['config']->set('honey.environments', ['testing']);
         $app['config']->set('database.default', 'testing');
     }
 }
