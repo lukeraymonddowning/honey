@@ -126,6 +126,41 @@ $token = request()->honey_recapture_token;
 $probablyABot = Honey::recaptcha()->check($token)->isSpam();
 ``` 
 
+### Customising what happens on failure
+By default, Honey will abort with a `422` status code when it detects spam through its middleware stack.
+Of course, you may wish to do something completely different. No problem! Just tell Honey what it should do instead
+in the boot method of your Service Provider:
+
+```php
+public function boot()
+{
+    Honey::failUsing(function() {
+        abort(404, "Move along. Nothing to see here...");
+    });
+}
+```
+
+### Hooks
+Honey allows you to perform callbacks prior to it failing due to a spam attack. You can register as many callbacks
+as you want. To register a callback, call the `beforeFailing` method.
+
+```php
+Honey::beforeFailing(fn() => Log::alert("A bot is trying to access our site. Red alert!"));
+```
+
+### Manually running Honey checks
+You can manually run any checks defined in your `checks` array in the `honey.php` config file using the Facade helper.
+
+```php
+$noSpam = Honey::check(request()->all());
+```
+
+Note that this won't fail for you, but will return a boolean instead. You can force a failure if desired:
+
+```php
+Honey::fail();
+```
+
 ### Configuring Honey
 Honey is built with a great set of defaults, but we understand that one size rarely fits all. That's why we provide
 plenty of config options for you. You can access them from the `honey.php` config file. Let's look at the
