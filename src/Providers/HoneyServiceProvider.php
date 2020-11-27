@@ -17,6 +17,7 @@ use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 use Lukeraymonddowning\Honey\InputNameSelectors\StaticInputNameSelector;
 use Lukeraymonddowning\Honey\Views\Honey as HoneyComponent;
 use Lukeraymonddowning\Honey\Recaptcha;
+use Lukeraymonddowning\Honey\Views\Recaptcha as RecaptchaComponent;
 
 class HoneyServiceProvider extends ServiceProvider
 {
@@ -58,7 +59,7 @@ class HoneyServiceProvider extends ServiceProvider
         $this->registerMiddleware();
 
         Blade::component(HoneyComponent::class, 'honey');
-        Blade::component(Recaptcha::class, 'honey-recaptcha');
+        Blade::component(RecaptchaComponent::class, 'honey-recaptcha');
     }
 
     public function console()
