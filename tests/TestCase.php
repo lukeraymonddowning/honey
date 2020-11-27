@@ -17,6 +17,7 @@ abstract class TestCase extends OrchestraTestCase
     {
         parent::getEnvironmentSetUp($app);
         $app['config']->set('honey.features', []);
+        $app['config']->set('honey.environments', ['testing']);
         $app['config']->set('app.key', 'base64:F0OdoHVLC2wHKO2YsAA9EVvilD0O2i5B9TnoBYeg7qc=');
     }
 }

@@ -6,24 +6,40 @@ namespace Lukeraymonddowning\Honey;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Lukeraymonddowning\Honey\Models\Spammer;
 
 class Honey
 {
     protected static Collection $checks;
     protected static $failUsing;
+    protected static $config;
+    protected $isEnabled = false;
     protected $hooks = [
         'beforeFailing' => []
     ];
 
-    public function __construct(Collection $checks, callable $failUsing)
+    public function __construct(Collection $checks, callable $failUsing, $config)
     {
         static::$checks = $checks;
         static::$failUsing = $failUsing;
+        static::$config = $config;
 
         if (Features::spammerIpTrackingIsEnabled()) {
             $this->registerSpammerTracking();
         }
+
+        $this->isEnabled = in_array(config('app.env'), $config['environments']);
+    }
+
+    public function isEnabled()
+    {
+        return $this->isEnabled;
+    }
+
+    public function disable()
+    {
+        $this->isEnabled = false;
     }
 
     protected function registerSpammerTracking()
@@ -33,6 +49,10 @@ class Honey
 
     public function check($data)
     {
+        if (!$this->isEnabled()) {
+            return true;
+        }
+
         return static::$checks->map->passes($data)->filter()->count() === static::$checks->count();
     }
 
@@ -48,6 +68,10 @@ class Honey
 
     public function fail()
     {
+        if (!$this->isEnabled()) {
+            return;
+        }
+
         $this->runHooks('beforeFailing');
         return app()->call(static::$failUsing);
     }
