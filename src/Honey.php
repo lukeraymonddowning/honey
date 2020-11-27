@@ -57,4 +57,9 @@ class Honey
         collect($this->hooks[$type])->each(fn($hook) => app()->call($hook));
     }
 
+    public function recaptcha()
+    {
+        return app('honey-recaptcha');
+    }
+
 }

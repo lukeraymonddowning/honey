@@ -11,4 +11,6 @@ interface InputNameSelector
     public function getTimeOfPageLoadInputName(): string;
 
     public function getAlpineInputName(): string;
+
+    public function getRecaptchaInputName(): string;
 }

@@ -27,4 +27,9 @@ class StaticInputNameSelector implements InputNameSelector
     {
         return $this->inputNames['alpine_input'];
     }
+
+    public function getRecaptchaInputName(): string
+    {
+        return $this->inputNames['recaptcha_input'];
+    }
 }

@@ -11,16 +11,19 @@ use Illuminate\Support\ServiceProvider;
 use Lukeraymonddowning\Honey\Features;
 use Lukeraymonddowning\Honey\Honey;
 use Lukeraymonddowning\Honey\Http\Middleware\BlockSpammers;
+use Lukeraymonddowning\Honey\Http\Middleware\CheckRecaptchaToken;
 use Lukeraymonddowning\Honey\Http\Middleware\PreventSpam;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 use Lukeraymonddowning\Honey\InputNameSelectors\StaticInputNameSelector;
 use Lukeraymonddowning\Honey\Views\Honey as HoneyComponent;
+use Lukeraymonddowning\Honey\Recaptcha;
 
 class HoneyServiceProvider extends ServiceProvider
 {
     public function register()
     {
         $this->app->singleton('honey', fn() => new Honey(static::getChecks(), self::defaultMethodOfFailing()));
+        $this->app->singleton('honey-recaptcha', fn() => app(Recaptcha::class));
         $this->app->singleton(InputNameSelector::class, fn() => app(static::getInputNameSelectorClass()));
         $this->app->singleton(
             StaticInputNameSelector::class,
@@ -55,6 +58,7 @@ class HoneyServiceProvider extends ServiceProvider
         $this->registerMiddleware();
 
         Blade::component(HoneyComponent::class, 'honey');
+        Blade::component(Recaptcha::class, 'honey-recaptcha');
     }
 
     public function console()
@@ -75,6 +79,7 @@ class HoneyServiceProvider extends ServiceProvider
     {
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('honey', PreventSpam::class);
+        $router->aliasMiddleware('honey-recaptcha', CheckRecaptchaToken::class);
         $router->aliasMiddleware('honey-block', BlockSpammers::class);
 
         if (Features::blockSpammersGloballyIsEnabled()) {

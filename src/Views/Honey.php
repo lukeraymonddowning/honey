@@ -23,7 +23,7 @@ class Honey extends Component
                 <div style="display: {{ isset($attributes['debug']) ? 'block' : 'none' }};">
                     <input type="text" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
                     <input type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ $timeOfPageLoadValue() }}">
-                    <input x-data="" x-init="setTimeout(function() {if ($el.value.length == 0) $el.value = '{{ $alpineValue() }}'}, {{ $alpineTimeout() }})" type="text" name="{{ $inputNameSelector->getAlpineInputName() }}" value="" required>
+                    <input x-data="" x-init="setTimeout(function() {if ($el.value.length == 0) $el.value = '{{ $alpineValue() }}'}, {{ $alpineTimeout() }})" type="text" name="{{ $inputNameSelector->getAlpineInputName() }}" value="">
                     {{ $slot }}
                 </div>     
             blade;

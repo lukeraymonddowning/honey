@@ -92,6 +92,7 @@ return [
                     'present_but_empty' => 'honey_present',
                     'time_of_page_load' => 'honey_time',
                     'alpine_input' => 'honey_alpine',
+                    'recaptcha_input' => 'honey_recapture_token'
                 ]
             ],
 
@@ -111,5 +112,26 @@ return [
         'alpine' => Lukeraymonddowning\Honey\InputValues\AlpineInputValue::class,
         'time_of_page_load' => Lukeraymonddowning\Honey\InputValues\TimeOfPageLoadValue::class,
     ],
+
+    /**
+     * --------------------------------------------------------------------------
+     * Recaptcha
+     * --------------------------------------------------------------------------
+     *
+     * If you decide to use Honey's Google Recaptcha integration, you
+     * can configure it by editing the values here or in your .env
+     * file.
+     */
+    'recaptcha' => [
+        'site_key' => env("RECAPTCHA_SITE_KEY"),
+        'secret_key' => env("RECAPTCHA_SECRET_KEY"),
+        /**
+         * Recaptcha returns a score between 0 and 1 when checking a
+         * token. 0 is most definitely a bot, 1 is definitely a
+         * user. This informs the recaptcha middleware of
+         * minimum score a user can get to pass.
+         */
+        'minimum_score' => 0.3,
+    ]
 
 ];

@@ -5,6 +5,7 @@ namespace Lukeraymonddowning\Honey\Facades;
 
 
 use Illuminate\Support\Facades\Facade;
+use Lukeraymonddowning\Honey\Recaptcha;
 
 /**
  * Class Honey
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static beforeFailing(callable $hook) Register a callback that should be fired before the registered fail callback is fired.
  * @method static fail() Call the registered failure callback.
  * @method static setMinimumTimePassed($time) Set the minimum amount of time between a page being loaded and submitted.
+ * @method static Recaptcha recaptcha() Resolve the Recaptcha object out of the container.
  */
 class Honey extends Facade
 {
