@@ -93,11 +93,11 @@ To use Honey's built in Middleware, add `honey-recaptcha` to your route's middle
 // routes/web.php
 
 Route::post('/test', fn() => event(new RegisterInterest))
-    ->middleware(['honey', 'honey-middleware'])
+    ->middleware(['honey', 'honey-recaptcha'])
     ->name('some.route');
 ```
 
-Again, you can use the independently of the `honey` middleware if you're only interested in Recaptcha. The middleware
+Again, you can use this independently of the `honey` middleware if you're only interested in Recaptcha. The middleware
 will abort the request by default if things look fishy.
 
 #### Manually
