@@ -21,9 +21,9 @@ class Honey extends Component
     {
         return <<<'blade'
                 <div style="display: {{ isset($attributes['debug']) ? 'block' : 'none' }};">
-                    <input type="text" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
-                    <input type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ $timeOfPageLoadValue() }}">
-                    <input x-data="" x-init="setTimeout(function() {if ($el.value.length == 0) $el.value = '{{ $alpineValue() }}'}, {{ $alpineTimeout() }})" type="text" name="{{ $inputNameSelector->getAlpineInputName() }}" value="">
+                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getPresentButEmptyInputName() }}" type="text" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
+                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ $timeOfPageLoadValue() }}">
+                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getAlpineInputName() }}" x-data="" x-init="setTimeout(function() { if ($el.value.length == 0) { $el.value = '{{ $alpineValue() }}'; $el.dispatchEvent(new Event('change'))} }, {{ $alpineTimeout() }})" type="text" name="{{ $inputNameSelector->getAlpineInputName() }}" value="">
                     {{ $slot }}
                 </div>     
             blade;
