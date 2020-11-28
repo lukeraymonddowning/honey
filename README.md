@@ -179,6 +179,14 @@ If spammer IP tracking is enabled, Honey can go one step further. By default, it
 will block any IP address in the `spammers` table that has hit the `maximum_attempts` defined further down in the
 config file. If you would like more granular control or wish to remove this functionality entirely, simply disable the feature.
 
+#### Environments
+You likely don't want to run Honey in every environment. Honey will only run in the environments specified in this array.
+You can also manually disable Honey by calling the `disable` method.
+
+```php
+Honey::disable();
+```
+
 #### Checks
 Each time the `honey` middleware is run or `Honey::check()` is called, Honey runs through an array of checks to determine
 if the request is spam. You can tailor which checks are to be run by adding or removing items in the `checks` array.

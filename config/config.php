@@ -1,6 +1,5 @@
 <?php
 
-use Lukeraymonddowning\Honey\Checks\AlpineInputFilledCheck;
 use Lukeraymonddowning\Honey\Checks\MinimumTimePassedCheck;
 use Lukeraymonddowning\Honey\Checks\PresentButEmptyCheck;
 use Lukeraymonddowning\Honey\Checks\UserIsBlockedSpammerCheck;
@@ -22,6 +21,21 @@ return [
         Features::spammerIpTracking(),
         Features::blockSpammersGlobally(),
 //        Features::neverGonnaGiveYouUp(),
+    ],
+
+    /**
+     * --------------------------------------------------------------------------
+     * Environments
+     * --------------------------------------------------------------------------
+     *
+     * You probably don't want to run Honey all the time, especially in tests and such.
+     * Here you can select the specific environments that Honey should run in. We've
+     * enabled `local` for you to test, but you might want to comment it out for
+     * day to day use.
+     */
+    'environments' => [
+        'production',
+        'local'
     ],
 
     /**
