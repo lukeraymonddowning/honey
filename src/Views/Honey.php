@@ -26,6 +26,9 @@ class Honey extends Component
                     <input x-data="" x-init="setTimeout(function() {if ($el.value.length == 0) $el.value = '{{ $alpineValue() }}'}, {{ $alpineTimeout() }})" type="text" name="{{ $inputNameSelector->getAlpineInputName() }}" value="">
                     {{ $slot }}
                 </div>     
+                @isset($attributes['recaptcha'])
+                    <x-honey-recaptcha :action="$attributes['recaptcha'] === true ? 'submit' : $attributes['recaptcha']"/>
+                @endisset
             blade;
     }
 
