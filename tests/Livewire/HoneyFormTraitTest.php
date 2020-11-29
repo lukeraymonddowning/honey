@@ -5,12 +5,12 @@ namespace Lukeraymonddowning\Honey\Tests\Livewire;
 
 
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Livewire\Livewire;
 use Lukeraymonddowning\Honey\InputValues\Values;
 use Lukeraymonddowning\Honey\Tests\TestCase;
 use Lukeraymonddowning\Honey\Traits\HoneyForm;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class HoneyFormTraitTest extends TestCase
 {
@@ -42,6 +42,25 @@ class HoneyFormTraitTest extends TestCase
         $test->call('check');
         $test->assertSet('passesCheck', false);
     }
+
+    /** @test */
+    public function it_can_run_a_recaptcha_test()
+    {
+        Http::fake(['*' => [
+            'success' => true,
+            'score' => 0.8,
+            'action' => 'submit',
+            'challenge_ts' => now()->toIso8601String(),
+            'hostname' => config('app.url'),
+            'error-codes' => []
+        ]]);
+
+        $test = Livewire::test(Example::class);
+        $test->assertSet('passesRecaptcha', false);
+        $test->set('honeyInputs.honey_recaptcha_input', 'foobar');
+        $test->call('checkRecaptcha');
+        $test->assertSet('passesRecaptcha', true);
+    }
 }
 
 class Example extends Component
@@ -49,12 +68,13 @@ class Example extends Component
     use HoneyForm;
 
     public $passesCheck = false;
+    public $passesRecaptcha = false;
 
     public function render()
     {
         return <<<'blade'
             <div>
-                <x-honey/>
+                <x-honey recaptcha/>
             </div>
         blade;
     }
@@ -62,5 +82,10 @@ class Example extends Component
     public function check()
     {
         $this->passesCheck = $this->passesHoneyChecks();
+    }
+
+    public function checkRecaptcha()
+    {
+        $this->passesRecaptcha = !$this->recaptcha()->isSpam();
     }
 }

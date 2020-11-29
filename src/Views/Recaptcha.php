@@ -20,18 +20,26 @@ class Recaptcha extends Component
         return <<<'blade'
             @once
                 <script src="https://www.google.com/recaptcha/api.js?render={{ $siteKey() }}"></script>
+                <script>
+                    window.Honey = {
+                        recaptcha(el, action = 'submit') {
+                            grecaptcha.execute('{{ $siteKey() }}', { action }).then(token => {
+                                el.value = token;
+                                el.dispatchEvent(new Event('change'));
+                           })
+                        },
+                    };
+                </script>
             @endonce
-            <input x-data="" 
-                   x-init="$el.form.onsubmit = (e) => { e.preventDefault(); grecaptcha.ready(() => {
-                        grecaptcha.execute('{{ $siteKey() }}', { action: '{{ $attributes['action'] ?? 'submit' }}' }).then(token => {
-                            $el.value = token;
-                            @isset($attributes['x-callback'])
-                                {{ $attributes['x-callback'] }}
-                            @else
-                                $el.form.submit();
-                            @endisset
-                        })
-                   })}"
+            <input wire:model.lazy.defer="honeyInputs.{{ $inputName }}"
+                   x-data="" 
+                   x-init="
+                   grecaptcha.ready(() => {
+                       window.Honey.recaptcha($el, '{{ $attributes['action'] ?? 'submit' }}');
+                       setInterval(() => {
+                           window.Honey.recaptcha($el, '{{ $attributes['action'] ?? 'submit' }}');
+                       }, {{ $tokenRefreshInterval() }})
+                   })"
                    {{ $attributes }}
                    type="hidden" 
                    name="{{ $inputName }}">
@@ -40,7 +48,17 @@ class Recaptcha extends Component
 
     public function siteKey()
     {
-        return $this->siteKey ??= config('honey.recaptcha.site_key');
+        return $this->siteKey ??= static::config()['site_key'];
+    }
+
+    public function tokenRefreshInterval()
+    {
+        return static::config()['token_refresh_interval'];
+    }
+
+    protected static function config()
+    {
+        return config('honey.recaptcha');
     }
 
 }

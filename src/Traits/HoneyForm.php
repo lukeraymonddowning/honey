@@ -12,11 +12,12 @@ trait HoneyForm
 {
     public $honeyInputs = [];
 
-    public function mountHoneyForm(InputNameSelector $inputNameSelector)
+    public function mountHoneyForm()
     {
-        $this->honeyInputs[$inputNameSelector->getPresentButEmptyInputName()] = null;
-        $this->honeyInputs[$inputNameSelector->getTimeOfPageLoadInputName()] = Values::timeOfPageLoad()->getValue();
-        $this->honeyInputs[$inputNameSelector->getAlpineInputName()] = null;
+        $this->honeyInputs[static::inputs()->getPresentButEmptyInputName()] = null;
+        $this->honeyInputs[static::inputs()->getTimeOfPageLoadInputName()] = Values::timeOfPageLoad()->getValue();
+        $this->honeyInputs[static::inputs()->getAlpineInputName()] = null;
+        $this->honeyInputs[static::inputs()->getRecaptchaInputName()] = null;
     }
 
     protected function honey(): Honey
@@ -27,5 +28,17 @@ trait HoneyForm
     protected function passesHoneyChecks()
     {
         return $this->honey()->check($this->honeyInputs);
+    }
+
+    protected function recaptcha()
+    {
+        return $this->honey()
+            ->recaptcha()
+            ->checkToken($this->honeyInputs[static::inputs()->getRecaptchaInputName()]);
+    }
+
+    protected static function inputs(): InputNameSelector
+    {
+        return app(InputNameSelector::class);
     }
 }
