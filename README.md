@@ -3,6 +3,20 @@
 A spam prevention package for Laravel, providing honeypot techniques, ip blocking and beautifully simple 
 [Recaptcha](https://developers.google.com/recaptcha) integration. Stop spam. Use Honey.
 
+## TOC
+- [Installation](#installation)
+- [Usage](#usage)
+    * [Recaptcha](#recaptcha)
+        - [Via Middleware](#via-middleware)
+        - [Manually](#manually)
+    * [Customising what happens on failure](#customising-what-happens-on-failure)
+    * [Hooks](#hooks)
+    * [Manually running Honey checks](#manually-running-honey-checks)
+    * [Integrating with Livewire](#integrating-with-livewire)
+    * [Configuring Honey](#configuring-honey)
+- [Testing](#testing)
+- [Accreditations](#accreditations)
+
 ## Installation
 You can install Honey via Composer.
 
@@ -74,12 +88,21 @@ We'll use the example from earlier:
 </form>
 ```
 
-As a note, you can use `<x-honey-recaptcha/>` alongside `<x-honey/>`, or separately. You do you.
+As a note, you can use `<x-honey-recaptcha/>` alongside `<x-honey/>`, or separately. You do you. However, if
+you're using both components, you can simplify to this:
+
+```blade
+<x-honey recaptcha/>
+```
+
 To allow you to track different action types in your Google console, you can pass an action attribute
 to the recaptcha blade component.
 
 ```blade
 <x-honey-recaptcha action="signup"/>
+
+// Or...
+<x-honey recaptcha="signup"/>
 ```
 
 You now have 2 options. You can allow Honey to make the Recaptcha request for you and fail automatically if it
@@ -160,6 +183,41 @@ Note that this won't fail for you, but will return a boolean instead. You can fo
 ```php
 Honey::fail();
 ```
+
+### Integrating with Livewire
+Honey offers out of the box [Livewire](https://laravel-livewire.com) support. To get started, add the 
+`WithHoney` trait to your Livewire component. You don't need to change your form at all, everything will
+just work. Note that the honey inputs are [deferred](https://laravel-livewire.com/docs/2.x/properties#deferred-updating),
+so they'll only sync back to the server after calling an action. Here's an example form:
+
+```blade
+<form wire:submit.prevent="signup">
+    @csrf
+    <input type="email" placeholder="Your email" required />
+    <x-honey/>
+    <button type="submit">Subscribe!</button>
+</form>
+```
+
+When the form is submitted and the `signup` action is called, the Honey inputs will sync back to your component.
+In your component, you can check if Honey passed by calling `$this->honeyPasses()`. Note that your standard fail
+method will not be called in Livewire components, because the use case is so different.
+
+Honey also supports reCaptcha for Livewire. Again, your form just needs to include the recaptcha component or 
+include the `recaptcha` attribute on the `<x-honey/>` component:
+
+```blade
+<form wire:submit.prevent="signup">
+    @csrf
+    <input type="email" placeholder="Your email" required />
+    <x-honey recaptcha/>
+    <button type="submit">Subscribe!</button>
+</form>
+```
+
+You also need to add the `WithRecaptcha` trait to your Livewire component (even if you're using Honey too). You can
+check for reCaptcha success by calling `$this->recaptchaPasses()`. If you're using `WithHoney`, the `$this->honeyPasses()`
+method will also check reCaptcha for you, so there is no need to call both methods.
 
 ### Configuring Honey
 Honey is built with a great set of defaults, but we understand that one size rarely fits all. That's why we provide

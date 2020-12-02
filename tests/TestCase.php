@@ -3,6 +3,7 @@
 namespace Lukeraymonddowning\Honey\Tests;
 
 use Illuminate\Support\Facades\Crypt;
+use Livewire\LivewireServiceProvider;
 use Lukeraymonddowning\Honey\Providers\HoneyServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
@@ -10,7 +11,7 @@ abstract class TestCase extends OrchestraTestCase
 {
     protected function getPackageProviders($app)
     {
-        return [HoneyServiceProvider::class];
+        return [HoneyServiceProvider::class, LivewireServiceProvider::class];
     }
 
     protected function getEnvironmentSetUp($app)

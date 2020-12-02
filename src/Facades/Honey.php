@@ -5,6 +5,7 @@ namespace Lukeraymonddowning\Honey\Facades;
 
 
 use Illuminate\Support\Facades\Facade;
+use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 use Lukeraymonddowning\Honey\Recaptcha;
 
 /**
@@ -17,6 +18,7 @@ use Lukeraymonddowning\Honey\Recaptcha;
  * @method static fail() Call the registered failure callback.
  * @method static setMinimumTimePassed($time) Set the minimum amount of time between a page being loaded and submitted.
  * @method static Recaptcha recaptcha() Resolve the Recaptcha object out of the container.
+ * @method static InputNameSelector inputs()
  */
 class Honey extends Facade
 {

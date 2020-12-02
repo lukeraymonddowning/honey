@@ -26,7 +26,8 @@
         }
     },
     "require-dev": {
-        "orchestra/testbench": "^6.4"
+        "orchestra/testbench": "^6.4",
+        "livewire/livewire": "^2.3"
     },
     "extra": {
         "laravel": {

@@ -111,10 +111,9 @@ return [
                     'present_but_empty' => 'honey_present',
                     'time_of_page_load' => 'honey_time',
                     'alpine_input' => 'honey_alpine',
-                    'recaptcha_input' => 'honey_recapture_token'
+                    'recaptcha_input' => 'honey_recaptcha_token'
                 ]
             ],
-
 
         ]
     ],
@@ -150,7 +149,13 @@ return [
          * user. This informs the recaptcha middleware of
          * minimum score a user can get to pass.
          */
-        'minimum_score' => env("RECAPTCHA_MINIMUM_SCORE", 0.3),
+        'minimum_score' => env("RECAPTCHA_MINIMUM_SCORE", 0.5),
+        /**
+         * The Recaptcha input will request a token on page load. As
+         * Recaptcha tokens only last for 2 minutes, the input
+         * refreshes based on this timeout (in milliseconds).
+         */
+        'token_refresh_interval' => 60000,
     ]
 
 ];

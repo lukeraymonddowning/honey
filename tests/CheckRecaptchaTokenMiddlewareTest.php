@@ -18,7 +18,7 @@ class CheckRecaptchaTokenMiddlewareTest extends TestCase
     {
         Http::fake(['*' => ['score' => 0.8]]);
 
-        request()->merge(['honey_recapture_token' => 'foobar']);
+        request()->merge(['honey_recaptcha_token' => 'foobar']);
         (new CheckRecaptchaToken())->handle(
             request(),
             function () {
