@@ -1,6 +1,6 @@
 # 🍯 Honey
 
-![Tests](https://github.com/lukeraymonddowning/honey/workflows/PHP%20Composer/badge.svg)
+![Tests](https://github.com/lukeraymonddowning/honey/workflows/Tests/badge.svg)
 
 A spam prevention package for Laravel, providing honeypot techniques, ip blocking and beautifully simple 
 [Recaptcha](https://developers.google.com/recaptcha) integration. Stop spam. Use Honey.
