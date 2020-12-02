@@ -21,7 +21,7 @@ class HoneyFormTraitTest extends TestCase
         $test = Livewire::test(Example::class);
         $test->assertSet('honeyInputs.honey_present', null);
         $this->assertEquals((int) microtime(true), (int) Crypt::decrypt($test->viewData('honeyInputs')['honey_time']));
-        $test->assertSet('honeyInputs.honey_alpine', null);
+        $test->assertSet('honeyInputs.honey_javascript', null);
     }
 
     /** @test */
@@ -30,7 +30,7 @@ class HoneyFormTraitTest extends TestCase
         $test = Livewire::test(Example::class);
         $test->assertSet('passesCheck', false);
         $test->set('honeyInputs.honey_time', Crypt::encrypt(microtime(true) - 5));
-        $test->set('honeyInputs.honey_alpine', Values::alpine()->getValue());
+        $test->set('honeyInputs.honey_javascript', Values::javascript()->getValue());
         $test->call('check');
         $test->assertSet('passesCheck', true);
     }
@@ -77,7 +77,7 @@ class HoneyFormTraitTest extends TestCase
 
         $test = Livewire::test(AnotherExample::class);
         $test->set('honeyInputs.honey_time', Crypt::encrypt(microtime(true) - 5));
-        $test->set('honeyInputs.honey_alpine', Values::alpine()->getValue());
+        $test->set('honeyInputs.honey_javascript', Values::javascript()->getValue());
         $test->set('honeyInputs.honey_recaptcha_input', 'foobar');
         $test->assertSet('passesEverything', false);
         $test->call('check');

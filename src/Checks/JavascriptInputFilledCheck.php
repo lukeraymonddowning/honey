@@ -8,7 +8,7 @@ use Exception;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 use Lukeraymonddowning\Honey\InputValues\Values;
 
-class AlpineInputFilledCheck implements Check
+class JavascriptInputFilledCheck implements Check
 {
     private InputNameSelector $inputNameSelector;
 
@@ -32,15 +32,15 @@ class AlpineInputFilledCheck implements Check
 
     protected function notInRequest($data)
     {
-        return !array_key_exists($this->inputNameSelector->getAlpineInputName(), $data);
+        return !array_key_exists($this->inputNameSelector->getJavascriptInputName(), $data);
     }
 
     protected function hasUnexpectedValue($data)
     {
-        $value = $data[$this->inputNameSelector->getAlpineInputName()];
+        $value = $data[$this->inputNameSelector->getJavascriptInputName()];
 
         try {
-            return !Values::alpine()->checkValue($value);
+            return !Values::javascript()->checkValue($value);
         } catch (Exception $exception) {
             return true;
         }

@@ -1,5 +1,6 @@
 <?php
 
+use Lukeraymonddowning\Honey\Checks\JavascriptInputFilledCheck;
 use Lukeraymonddowning\Honey\Checks\MinimumTimePassedCheck;
 use Lukeraymonddowning\Honey\Checks\PresentButEmptyCheck;
 use Lukeraymonddowning\Honey\Checks\UserIsBlockedSpammerCheck;
@@ -53,7 +54,7 @@ return [
         UserIsBlockedSpammerCheck::class,
         PresentButEmptyCheck::class,
         MinimumTimePassedCheck::class,
-        // AlpineInputFilledCheck::class,
+        JavascriptInputFilledCheck::class,
     ],
 
     /**
@@ -63,7 +64,7 @@ return [
      *
      * Here you can alter how long, in seconds, must have passed between
      * a form loading and the request coming back in if you have either
-     * `MinimumTimePassedCheck` or `AlpineInputFilledCheck` enabled.
+     * `MinimumTimePassedCheck` or `JavascriptInputFilledCheck` enabled.
      */
     'minimum_time_passed' => 3,
 
@@ -110,7 +111,7 @@ return [
                 'names' => [
                     'present_but_empty' => 'honey_present',
                     'time_of_page_load' => 'honey_time',
-                    'alpine_input' => 'honey_alpine',
+                    'javascript_input' => 'honey_javascript',
                     'recaptcha_input' => 'honey_recaptcha_token'
                 ]
             ],
@@ -127,7 +128,7 @@ return [
      * different values. Not all inputs support this feature.
      */
     'input_values' => [
-        'alpine' => Lukeraymonddowning\Honey\InputValues\AlpineInputValue::class,
+        'javascript' => Lukeraymonddowning\Honey\InputValues\JavascriptInputValue::class,
         'time_of_page_load' => Lukeraymonddowning\Honey\InputValues\TimeOfPageLoadValue::class,
     ],
 

@@ -21,7 +21,7 @@ trait WithHoney
     {
         $this->honeyInputs[Honey::inputs()->getPresentButEmptyInputName()] = null;
         $this->honeyInputs[Honey::inputs()->getTimeOfPageLoadInputName()] = Values::timeOfPageLoad()->getValue();
-        $this->honeyInputs[Honey::inputs()->getAlpineInputName()] = null;
+        $this->honeyInputs[Honey::inputs()->getJavascriptInputName()] = null;
     }
 
     public function getHoneyPassedProperty()

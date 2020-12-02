@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Lukeraymonddowning\Honey\Facades\Honey;
 use Lukeraymonddowning\Honey\Http\Middleware\PreventSpam;
+use Lukeraymonddowning\Honey\InputValues\Values;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class MiddlewareTest extends TestCase
@@ -47,7 +48,7 @@ class MiddlewareTest extends TestCase
 
     protected static function request($attributes = [], $skip = [])
     {
-        $attributes = array_merge(['honey_present' => '', 'honey_time' => Crypt::encrypt(microtime(true) - 5)], $attributes);
+        $attributes = array_merge(['honey_present' => '', 'honey_time' => Crypt::encrypt(microtime(true) - 5), 'honey_javascript' => Values::javascript()->getValue()], $attributes);
 
         foreach ($skip as $key) {
             unset($attributes[$key]);
