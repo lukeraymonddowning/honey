@@ -20,10 +20,27 @@ class Honey extends Component
     public function render()
     {
         return <<<'blade'
-                <div style="display: {{ isset($attributes['debug']) ? 'block' : 'none' }};">
-                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getPresentButEmptyInputName() }}" type="text" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
-                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" type="text" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ $timeOfPageLoadValue() }}">
-                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getAlpineInputName() }}" x-data="" x-init="setTimeout(function() { if ($el.value.length == 0) { $el.value = '{{ $alpineValue() }}'; $el.dispatchEvent(new Event('change'))} }, {{ $alpineTimeout() }})" type="text" name="{{ $inputNameSelector->getAlpineInputName() }}" value="">
+                @once
+                    <script>
+                        window.addEventListener('load', () => {
+                            setTimeout(() => {
+                                document.querySelectorAll('input[data-purpose="{{ $inputNameSelector->getAlpineInputName() }}"]')
+                                    .forEach(input => {
+                                        if (input.value.length > 0) {
+                                            return;
+                                        }
+                                        
+                                        input.value = "{{ $javascriptValue() }}";
+                                        input.dispatchEvent(new Event('change'));
+                                    });
+                            }, {{ $javascriptTimeout() }})
+                        });
+                    </script>
+                @endonce
+                <div style="display: @isset($attributes['debug']) block @else none @endisset;">
+                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getPresentButEmptyInputName() }}" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
+                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ $timeOfPageLoadValue() }}">
+                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getAlpineInputName() }}" data-purpose="{{ $inputNameSelector->getAlpineInputName() }}" name="{{ $inputNameSelector->getAlpineInputName() }}" value="">
                     {{ $slot }}
                 </div>     
                 @isset($attributes['recaptcha'])
@@ -37,12 +54,12 @@ class Honey extends Component
         return Values::timeOfPageLoad()->getValue();
     }
 
-    public function alpineValue()
+    public function javascriptValue()
     {
         return Values::alpine()->getValue();
     }
 
-    public function alpineTimeout()
+    public function javascriptTimeout()
     {
         return config('honey.minimum_time_passed') * 1000;
     }

@@ -23,7 +23,6 @@ class Recaptcha extends Component
                 <script>
                     window.Honey = {
                         recaptcha(el, action = 'submit') {
-                            console.log(el, action);
                             grecaptcha.execute('{{ $siteKey() }}', { action }).then(token => {
                                 el.value = token;
                                 el.dispatchEvent(new Event('change'));
