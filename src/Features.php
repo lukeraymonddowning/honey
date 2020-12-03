@@ -8,7 +8,7 @@ class Features
 {
     protected static function enabled($feature)
     {
-        return in_array($feature, config('honey.features'));
+        return in_array($feature, config('honey.features') ?? []);
     }
 
     public static function spammerIpTracking()
