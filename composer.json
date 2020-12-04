@@ -1,42 +1,45 @@
 {
-    "name": "lukeraymonddowning/honey",
-    "description": "Reduce spam on your Laravel site.",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "luke",
-            "email": "lukeraymonddowning@gmail.com"
-        }
-    ],
-    "require": {
-        "php": "^7.4|^8.0",
-        "illuminate/support": "^7.0|^8.0",
-        "guzzlehttp/guzzle": "^6.3|^7.2"
-    },
-    "autoload": {
-        "psr-4": {
-            "Lukeraymonddowning\\Honey\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Lukeraymonddowning\\Honey\\Tests\\": "tests",
-            "Lukeraymonddowning\\Honey\\Tests\\Factories\\": "database/factories"
-        }
-    },
-    "require-dev": {
-        "orchestra/testbench": "^6.4",
-        "livewire/livewire": "^2.3"
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Lukeraymonddowning\\Honey\\Providers\\HoneyServiceProvider"
-            ],
-            "aliases": {
-                "Honey": "Lukeraymonddowning\\Honey\\Facades\\Honey"
-            }
-        }
+  "name": "lukeraymonddowning/honey",
+  "description": "Reduce spam on your Laravel site.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "luke",
+      "email": "lukeraymonddowning@gmail.com"
     }
+  ],
+  "scripts": {
+    "test": "php vendor/bin/phpunit"
+  },
+  "require": {
+    "php": "^7.4|^8.0",
+    "illuminate/support": "^7.0|^8.0",
+    "guzzlehttp/guzzle": "^6.3|^7.2"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^6.4",
+    "livewire/livewire": "^2.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Lukeraymonddowning\\Honey\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Lukeraymonddowning\\Honey\\Tests\\": "tests",
+      "Lukeraymonddowning\\Honey\\Tests\\Factories\\": "database/factories"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Lukeraymonddowning\\Honey\\Providers\\HoneyServiceProvider"
+      ],
+      "aliases": {
+        "Honey": "Lukeraymonddowning\\Honey\\Facades\\Honey"
+      }
+    }
+  }
 }

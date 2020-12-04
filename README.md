@@ -302,7 +302,7 @@ Here you can define your key pair if you don't want to do it in the env file. Yo
 Honey has a full test suite. Go ahead and run it for yourself!
 
 ```bash
-php vendor/bin/phpunit tests
+composer test
 ```
 
 ## Accreditations
