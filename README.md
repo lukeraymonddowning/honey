@@ -32,6 +32,12 @@ You should publish Honey's config file using the following [Artisan](https://lar
 php artisan vendor:publish --tag=honey
 ```
 
+Finally, you should run your database migrations, which adds a spammers table:
+
+```bash
+php artisan migrate
+```
+
 Honey is now successfully installed!
 
 ## Usage
