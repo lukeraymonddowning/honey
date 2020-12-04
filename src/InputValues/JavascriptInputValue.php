@@ -6,7 +6,7 @@ namespace Lukeraymonddowning\Honey\InputValues;
 
 use Illuminate\Support\Facades\Crypt;
 
-class AlpineInputValue implements InputValue
+class JavascriptInputValue implements InputValue
 {
     public function getValue(): string
     {

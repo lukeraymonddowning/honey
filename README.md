@@ -69,11 +69,7 @@ That's it! Your route is now protected from spam. If you want to take it to the 
 Honey makes it a breeze to integrate Google's [Recaptcha](https://developers.google.com/recaptcha) on your Laravel
 site. We integrate with Recaptcha v3 for completely seamless and invisible bot prevention. Here's how to get started.
 
-Honey uses [Alpine JS](https://github.com/alpinejs/alpine) to integrate Recaptcha. If you don't want to use Alpine,
-you can still use Honey, but you won't be able to use its Recaptcha integration. Follow Alpine's 30 second install
-instructions, then come back here.
-
-Next, you need to go grab a key pair from Google. You can get yours here: 
+First, you need to go grab a key pair from Google. You can get yours here: 
 [https://g.co/recaptcha/v3](https://g.co/recaptcha/v3). Head into your `.env` file, and add your key pair.
 
 ```dotenv
@@ -270,14 +266,13 @@ When you include the `<x-honey/>` blade directive, Honey adds a hidden input to 
 If the form is submitted faster than defined in the `minimum_time_passed` config entry, or removes the input from the request, 
 this check will fail.
 
-##### Alpine input filled check
-This check is disabled by default, because not everybody uses Alpine JS, but if you do, you should enable it. 
+##### Javascript input filled check
 When you include the `<x-honey/>` blade directive, Honey adds a hidden input to your form. It starts empty, but after
-the time specified in the `minimum_time_passed` config entry, Alpine JS fills the input with an encrypted value.
+the time specified in the `minimum_time_passed` config entry, Javascript fills the input with an encrypted value.
 If the input has been filled out with a different value, or has no value, the check will fail.
 
 #### Minimum time passed
-If you have the minimum time passed check or the alpine input filled check enabled, both checks will use this value
+If you have the minimum time passed check or the Javascript input filled check enabled, both checks will use this value
 to determine, in seconds, the minimum amount of time that should pass from the page loading until the form can be 
 submitted. Forms that are submitted more quickly than this will fail the spam check.
 

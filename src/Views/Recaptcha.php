@@ -19,7 +19,7 @@ class Recaptcha extends Component
     {
         return <<<'blade'
             @once
-                <script src="https://www.google.com/recaptcha/api.js?render={{ $siteKey() }}"></script>
+                <script src="https://www.google.com/recaptcha/api.js?render={{ $siteKey() }}" defer></script>
                 <script>
                     window.Honey = {
                         recaptcha(el, action = 'submit') {
@@ -29,19 +29,24 @@ class Recaptcha extends Component
                            })
                         },
                     };
+                    
+                    window.addEventListener('load', () => {
+                        grecaptcha.ready(() => {
+                           recaptchaInputs = document.querySelectorAll('input[data-purpose="honey-rc"]');
+                           recaptchaInputs.forEach(input => window.Honey.recaptcha(input, input.dataset.action));
+                           
+                           setInterval(() => {
+                                recaptchaInputs.forEach(input => window.Honey.recaptcha(input, input.dataset.action));
+                           }, {{ $tokenRefreshInterval() }})
+                        })    
+                    });
                 </script>
             @endonce
             <input wire:model.lazy.defer="honeyInputs.{{ $inputName }}"
-                   x-data="" 
-                   x-init="
-                   grecaptcha.ready(() => {
-                       window.Honey.recaptcha($el, '{{ $attributes['action'] ?? 'submit' }}');
-                       setInterval(() => {
-                           window.Honey.recaptcha($el, '{{ $attributes['action'] ?? 'submit' }}');
-                       }, {{ $tokenRefreshInterval() }})
-                   })"
                    {{ $attributes }}
                    type="hidden" 
+                   data-purpose="honey-rc"
+                   data-action="{{ $attributes['action'] ?? 'submit' }}"
                    name="{{ $inputName }}">
         blade;
     }
@@ -51,14 +56,14 @@ class Recaptcha extends Component
         return $this->siteKey ??= static::config()['site_key'];
     }
 
-    public function tokenRefreshInterval()
-    {
-        return static::config()['token_refresh_interval'];
-    }
-
     protected static function config()
     {
         return config('honey.recaptcha');
+    }
+
+    public function tokenRefreshInterval()
+    {
+        return static::config()['token_refresh_interval'];
     }
 
 }

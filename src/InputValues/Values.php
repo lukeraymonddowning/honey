@@ -7,9 +7,9 @@ namespace Lukeraymonddowning\Honey\InputValues;
 class Values
 {
 
-    public static function alpine()
+    public static function javascript()
     {
-        return static::resolve('alpine');
+        return static::resolve('javascript');
     }
 
     public static function timeOfPageLoad()
