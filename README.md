@@ -32,6 +32,12 @@ You should publish Honey's config file using the following [Artisan](https://lar
 php artisan vendor:publish --tag=honey
 ```
 
+Finally, you should run your database migrations, which adds a spammers table:
+
+```bash
+php artisan migrate
+```
+
 Honey is now successfully installed!
 
 ## Usage
@@ -104,7 +110,7 @@ to the recaptcha blade component.
 ```
 
 You now have 2 options. You can allow Honey to make the Recaptcha request for you and fail automatically if it
-detects a bot, or you can do it manually (although its basically magic, so don't worry).
+detects a bot, or you can do it manually (although it's basically magic, so don't worry).
 
 #### Via Middleware
 
