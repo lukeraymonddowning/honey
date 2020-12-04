@@ -29,7 +29,7 @@ composer require lukeraymonddowning/honey
 You should publish Honey's config file using the following [Artisan](https://laravel.com/docs/master/artisan) Command:
 
 ```bash
-php artisan vendor:publish --tag=honey
+php artisan honey:install
 ```
 
 Finally, you should run your database migrations, which adds a spammers table:
