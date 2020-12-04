@@ -70,7 +70,7 @@ Honey makes it a breeze to integrate Google's [Recaptcha](https://developers.goo
 site. We integrate with Recaptcha v3 for completely seamless and invisible bot prevention. Here's how to get started.
 
 Honey uses [Alpine JS](https://github.com/alpinejs/alpine) to integrate Recaptcha. If you don't want to use Alpine,
-you can still use Honey, but you won't be able to use it's Recaptcha integration. Follow Alpine's 30 second install
+you can still use Honey, but you won't be able to use its Recaptcha integration. Follow Alpine's 30 second install
 instructions, then come back here.
 
 Next, you need to go grab a key pair from Google. You can get yours here: 
