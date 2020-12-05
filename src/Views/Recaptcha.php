@@ -44,8 +44,7 @@ class Recaptcha extends Component
                     });
                     
                     document.addEventListener('livewire:load', function () {
-                        Livewire.hook('message.received', (message, component) => {
-                            if (!component.el.querySelector('input[data-purpose="honey-rc"]')) return;
+                        window.addEventListener('recaptcha-refresh-required', () => {
                             window.Honey.refreshAllTokens();
                         });
                     });

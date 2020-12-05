@@ -23,7 +23,14 @@ trait WithRecaptcha
 
     public function getRecaptchaPassedProperty()
     {
-        return !Honey::recaptcha()->checkToken($this->honeyInputs[Honey::inputs()->getRecaptchaInputName()])->isSpam();
+        $response = !Honey::recaptcha()->checkToken($this->honeyInputs[Honey::inputs()->getRecaptchaInputName()])->isSpam();
+        $this->requestRecaptchaTokenRefresh();
+        return $response;
+    }
+
+    public function requestRecaptchaTokenRefresh()
+    {
+        $this->dispatchBrowserEvent('recaptcha-refresh-required');
     }
 
     public function recaptchaPasses()
