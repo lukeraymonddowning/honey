@@ -7,14 +7,21 @@ namespace Lukeraymonddowning\Honey\Traits;
 use Lukeraymonddowning\Honey\Facades\Honey;
 
 /**
- * Trait WithRecaptcha
- * @package Lukeraymonddowning\Honey\Traits
- *
  * @property boolean recaptchaPassed
  */
 trait WithRecaptcha
 {
     public $honeyInputs = [];
+
+    public function initializeWithRecaptcha()
+    {
+        Honey::recaptcha()->afterRequesting(fn() => $this->requestRecaptchaTokenRefresh());
+    }
+
+    public function requestRecaptchaTokenRefresh()
+    {
+        $this->dispatchBrowserEvent('recaptcha-refresh-required');
+    }
 
     public function mountWithRecaptcha()
     {
@@ -23,7 +30,13 @@ trait WithRecaptcha
 
     public function getRecaptchaPassedProperty()
     {
-        return !Honey::recaptcha()->checkToken($this->honeyInputs[Honey::inputs()->getRecaptchaInputName()])->isSpam();
+        $response = !Honey::recaptcha()->checkToken($this->recaptchaToken())->isSpam();
+        return $response;
+    }
+
+    protected function recaptchaToken()
+    {
+        return $this->honeyInputs[Honey::inputs()->getRecaptchaInputName()];
     }
 
     public function recaptchaPasses()

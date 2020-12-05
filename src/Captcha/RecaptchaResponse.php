@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Lukeraymonddowning\Honey;
+namespace Lukeraymonddowning\Honey\Captcha;
 
 
 use ArrayAccess;
@@ -9,9 +9,6 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use Lukeraymonddowning\Honey\Facades\Honey;
 
 /**
- * Class RecaptchaResponse
- * @package Lukeraymonddowning\Honey
- *
  * @method boolean isSpam()
  */
 class RecaptchaResponse implements ArrayAccess

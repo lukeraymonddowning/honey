@@ -29,7 +29,7 @@ composer require lukeraymonddowning/honey
 You should publish Honey's config file using the following [Artisan](https://laravel.com/docs/master/artisan) Command:
 
 ```bash
-php artisan vendor:publish --tag=honey
+php artisan honey:install
 ```
 
 Finally, you should run your database migrations, which adds a spammers table:
@@ -181,6 +181,13 @@ as you want. To register a callback, call the `beforeFailing` method.
 Honey::beforeFailing(fn() => Log::alert("A bot is trying to access our site. Red alert!"));
 ```
 
+Honey also allows you to hook in after a recaptcha token has been checked on the server. This is used in the Livewire
+traits to force a request for a new token on the next render.
+
+```php
+Honey::recaptcha()->afterRequesting(fn($response) => Log::info("This user got a reCaptcha score of {$response['score']}"));
+```
+
 ### Manually running Honey checks
 You can manually run any checks defined in your `checks` array in the `honey.php` config file using the Facade helper.
 
@@ -228,6 +235,9 @@ include the `recaptcha` attribute on the `<x-honey/>` component:
 You also need to add the `WithRecaptcha` trait to your Livewire component (even if you're using Honey too). You can
 check for reCaptcha success by calling `$this->recaptchaPasses()`. If you're using `WithHoney`, the `$this->honeyPasses()`
 method will also check reCaptcha for you, so there is no need to call both methods.
+
+The `WithRecaptcha` trait is smart enough to request a new token from the browser if, for example, your token check passes
+but your validation fails.
 
 ### Configuring Honey
 Honey is built with a great set of defaults, but we understand that one size rarely fits all. That's why we provide
@@ -302,7 +312,7 @@ Here you can define your key pair if you don't want to do it in the env file. Yo
 Honey has a full test suite. Go ahead and run it for yourself!
 
 ```bash
-php vendor/bin/phpunit tests
+composer test
 ```
 
 ## Accreditations

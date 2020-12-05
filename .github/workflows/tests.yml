@@ -7,12 +7,27 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  run:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        php: ['7.4', '8.0']
 
-    runs-on: ubuntu-latest
-
+    name: PHP ${{ matrix.php }} Test on ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: mbstring, intl, fileinfo
+        ini-values: post_max_size=256M, max_execution_time=180
+        coverage: xdebug
+        tools: php-cs-fixer, phpunit
 
     - name: Validate composer.json and composer.lock
       run: composer validate
@@ -22,13 +37,13 @@ jobs:
       uses: actions/cache@v2
       with:
         path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        key: ${{ matrix.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-php-
+          ${{ matrix.os }}-php-${{ matrix.php }}
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Run tests
-      run: php vendor/bin/phpunit tests
+      run: composer test

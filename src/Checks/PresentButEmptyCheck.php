@@ -4,37 +4,34 @@
 namespace Lukeraymonddowning\Honey\Checks;
 
 
-use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
+use Lukeraymonddowning\Honey\Facades\Honey;
 
 class PresentButEmptyCheck implements Check
 {
-    private InputNameSelector $inputNameSelector;
+    protected $data;
 
-    public function __construct(InputNameSelector $inputNameSelector)
+    public function passes($data)
     {
-        $this->inputNameSelector = $inputNameSelector;
-    }
+        $this->data = collect($data);
 
-    public function passes($data): bool
-    {
-        if ($this->notInRequest($data)) {
+        if ($this->missingFromData()) {
             return false;
         }
 
-        if ($this->isFilled($data)) {
+        if ($this->isFilled()) {
             return false;
         }
 
         return true;
     }
 
-    protected function notInRequest($data)
+    protected function missingFromData()
     {
-        return !array_key_exists($this->inputNameSelector->getPresentButEmptyInputName(), $data);
+        return !$this->data->has(Honey::inputs()->getPresentButEmptyInputName());
     }
 
-    protected function isFilled($data)
+    protected function isFilled()
     {
-        return !empty($data[$this->inputNameSelector->getPresentButEmptyInputName()]);
+        return !empty($this->data[Honey::inputs()->getPresentButEmptyInputName()]);
     }
 }

@@ -20,6 +20,6 @@ class TimeOfPageLoadValue implements InputValue
 
     protected static function getConfiguredMinimumTime()
     {
-        return config('honey.minimum_time_passed');
+        return config('honey.minimum_time_passed', 3);
     }
 }

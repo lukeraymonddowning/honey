@@ -7,7 +7,7 @@ namespace Lukeraymonddowning\Honey\Tests;
 use Illuminate\Support\Facades\Http;
 use Lukeraymonddowning\Honey\Exceptions\RecaptchaFailedException;
 use Lukeraymonddowning\Honey\Facades\Honey;
-use Lukeraymonddowning\Honey\RecaptchaResponse;
+use Lukeraymonddowning\Honey\Captcha\RecaptchaResponse;
 
 class RecaptchaTokenTest extends TestCase
 {
