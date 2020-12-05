@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Livewire\Livewire;
+use Lukeraymonddowning\Honey\Facades\Honey;
 use Lukeraymonddowning\Honey\InputValues\Values;
 use Lukeraymonddowning\Honey\Tests\TestCase;
 use Lukeraymonddowning\Honey\Traits\WithHoney;
@@ -102,6 +103,23 @@ class HoneyFormTraitTest extends TestCase
         $test->call('checkRecaptcha');
         $test->assertDispatchedBrowserEvent('recaptcha-refresh-required');
     }
+
+    /** @test */
+    public function when_recaptcha_is_checked_manually_in_a_livewire_component_a_browser_event_is_dispatched()
+    {
+        Http::fake(['*' => [
+            'success' => true,
+            'score' => 0.8,
+            'action' => 'submit',
+            'challenge_ts' => now()->toIso8601String(),
+            'hostname' => config('app.url'),
+            'error-codes' => []
+        ]]);
+
+        $test = Livewire::test(AnotherExample::class);
+        $test->call('manualRecaptchaCheck');
+        $test->assertDispatchedBrowserEvent('recaptcha-refresh-required');
+    }
 }
 
 class Example extends Component
@@ -149,5 +167,10 @@ class AnotherExample extends Component
     public function checkRecaptcha()
     {
         $this->passesRecaptcha = $this->recaptchaPassed;
+    }
+
+    public function manualRecaptchaCheck()
+    {
+        Honey::recaptcha()->checkToken($this->recaptchaToken());
     }
 }

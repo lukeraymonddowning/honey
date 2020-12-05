@@ -10,11 +10,16 @@ use Lukeraymonddowning\Honey\Exceptions\RecaptchaFailedException;
 class Recaptcha
 {
     const URL = "https://www.google.com/recaptcha/api/siteverify";
+    protected $hooks = ['afterRequesting' => []];
     protected RecaptchaResponse $response;
 
     public function checkToken($token, $ip = null)
     {
-        return $this->response ??= new RecaptchaResponse(static::getResponse($token, $ip));
+        $this->response ??= new RecaptchaResponse(static::getResponse($token, $ip));
+
+        collect($this->hooks['afterRequesting'])->each->__invoke($this->response);
+
+        return $this->response;
     }
 
     protected static function getResponse($token, $ip = null)
@@ -38,6 +43,11 @@ class Recaptcha
     protected static function secret()
     {
         return config('honey.recaptcha.secret_key');
+    }
+
+    public function afterRequesting(callable $hook)
+    {
+        $this->hooks['afterRequesting'][] = $hook;
     }
 
     public function isSpam()
