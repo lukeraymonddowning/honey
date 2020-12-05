@@ -7,7 +7,7 @@ namespace Lukeraymonddowning\Honey\Tests;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use Lukeraymonddowning\Honey\Facades\Honey;
-use Lukeraymonddowning\Honey\RecaptchaResponse;
+use Lukeraymonddowning\Honey\Captcha\RecaptchaResponse;
 
 class HooksTest extends TestCase
 {

@@ -6,7 +6,7 @@ namespace Lukeraymonddowning\Honey\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
-use Lukeraymonddowning\Honey\Recaptcha;
+use Lukeraymonddowning\Honey\Captcha\Recaptcha;
 
 /**
  * @method static bool check($data)

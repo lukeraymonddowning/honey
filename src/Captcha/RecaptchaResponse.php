@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Lukeraymonddowning\Honey;
+namespace Lukeraymonddowning\Honey\Captcha;
 
 
 use ArrayAccess;
