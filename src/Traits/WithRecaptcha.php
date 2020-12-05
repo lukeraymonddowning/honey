@@ -16,6 +16,11 @@ trait WithRecaptcha
 {
     public $honeyInputs = [];
 
+    public function initializeWithRecaptcha()
+    {
+        Honey::recaptcha()->afterRequesting(fn() => $this->requestRecaptchaTokenRefresh());
+    }
+
     public function mountWithRecaptcha()
     {
         $this->honeyInputs[Honey::inputs()->getRecaptchaInputName()] = null;
@@ -23,7 +28,18 @@ trait WithRecaptcha
 
     public function getRecaptchaPassedProperty()
     {
-        return !Honey::recaptcha()->checkToken($this->honeyInputs[Honey::inputs()->getRecaptchaInputName()])->isSpam();
+        $response = !Honey::recaptcha()->checkToken($this->recaptchaToken())->isSpam();
+        return $response;
+    }
+
+    protected function recaptchaToken()
+    {
+        return $this->honeyInputs[Honey::inputs()->getRecaptchaInputName()];
+    }
+
+    public function requestRecaptchaTokenRefresh()
+    {
+        $this->dispatchBrowserEvent('recaptcha-refresh-required');
     }
 
     public function recaptchaPasses()
