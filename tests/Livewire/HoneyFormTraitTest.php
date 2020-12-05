@@ -85,6 +85,23 @@ class HoneyFormTraitTest extends TestCase
 
         Http::assertSentCount(1);
     }
+    
+    /** @test */
+    public function when_the_recaptcha_token_is_checked_a_browser_event_is_dispatched()
+    {
+        Http::fake(['*' => [
+            'success' => true,
+            'score' => 0.8,
+            'action' => 'submit',
+            'challenge_ts' => now()->toIso8601String(),
+            'hostname' => config('app.url'),
+            'error-codes' => []
+        ]]);
+
+        $test = Livewire::test(AnotherExample::class);
+        $test->call('checkRecaptcha');
+        $test->assertDispatchedBrowserEvent('recaptcha-refresh-required');
+    }
 }
 
 class Example extends Component
