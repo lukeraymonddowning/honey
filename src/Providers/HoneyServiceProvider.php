@@ -16,7 +16,7 @@ use Lukeraymonddowning\Honey\Http\Middleware\BlockSpammers;
 use Lukeraymonddowning\Honey\Http\Middleware\CheckRecaptchaToken;
 use Lukeraymonddowning\Honey\Http\Middleware\PreventSpam;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
-use Lukeraymonddowning\Honey\Recaptcha;
+use Lukeraymonddowning\Honey\Captcha\Recaptcha;
 use Lukeraymonddowning\Honey\Views\Honey as HoneyComponent;
 use Lukeraymonddowning\Honey\Views\Recaptcha as RecaptchaComponent;
 
