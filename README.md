@@ -29,7 +29,7 @@ composer require lukeraymonddowning/honey
 You should publish Honey's config file using the following [Artisan](https://laravel.com/docs/master/artisan) Command:
 
 ```bash
-php artisan vendor:publish --tag=honey
+php artisan honey:install
 ```
 
 Finally, you should run your database migrations, which adds a spammers table:
@@ -312,7 +312,7 @@ Here you can define your key pair if you don't want to do it in the env file. Yo
 Honey has a full test suite. Go ahead and run it for yourself!
 
 ```bash
-php vendor/bin/phpunit tests
+composer test
 ```
 
 ## Accreditations
