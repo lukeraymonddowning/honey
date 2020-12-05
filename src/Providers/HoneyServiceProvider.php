@@ -9,6 +9,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Lukeraymonddowning\Honey\Commands\InstallCommand;
 use Lukeraymonddowning\Honey\Features;
 use Lukeraymonddowning\Honey\Honey;
 use Lukeraymonddowning\Honey\Http\Middleware\BlockSpammers;
@@ -84,6 +85,8 @@ class HoneyServiceProvider extends ServiceProvider
             ],
             'honey'
         );
+
+        $this->commands(InstallCommand::class);
     }
 
     protected function registerMiddleware()
