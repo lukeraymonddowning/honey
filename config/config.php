@@ -157,6 +157,20 @@ return [
          * refreshes based on this timeout (in milliseconds).
          */
         'token_refresh_interval' => 60000,
-    ]
+    ],
+
+    /**
+     * --------------------------------------------------------------------------
+     * hCaptcha
+     * --------------------------------------------------------------------------
+     *
+     * As an alternative to reCaptcha, you can use hCaptcha instead.
+     * Honey provides the same simple integration, and you can
+     * configure your key and other options here.
+     */
+    'hcaptcha' => [
+        'site_key' => env("HCAPTCHA_SITE_KEY"),
+        'secret_key' => env("HCAPTCHA_SECRET_KEY"),
+    ],
 
 ];

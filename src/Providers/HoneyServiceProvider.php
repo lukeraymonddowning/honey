@@ -17,6 +17,7 @@ use Lukeraymonddowning\Honey\Http\Middleware\PreventSpam;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 use Lukeraymonddowning\Honey\InputNameSelectors\StaticInputNameSelector;
 use Lukeraymonddowning\Honey\Recaptcha;
+use Lukeraymonddowning\Honey\Views\Hcaptcha as HcaptchaComponent;
 use Lukeraymonddowning\Honey\Views\Honey as HoneyComponent;
 use Lukeraymonddowning\Honey\Views\Recaptcha as RecaptchaComponent;
 
@@ -70,6 +71,7 @@ class HoneyServiceProvider extends ServiceProvider
 
         Blade::component(HoneyComponent::class, 'honey');
         Blade::component(RecaptchaComponent::class, 'honey-recaptcha');
+        Blade::component(HcaptchaComponent::class, 'honey-hcaptcha');
     }
 
     public function console()
