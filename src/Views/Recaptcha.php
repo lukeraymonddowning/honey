@@ -26,19 +26,28 @@ class Recaptcha extends Component
                             grecaptcha.execute('{{ $siteKey() }}', { action }).then(token => {
                                 el.value = token;
                                 el.dispatchEvent(new Event('change'));
-                           })
+                            });
+                        },
+                        recaptchaInputs() {
+                            return document.querySelectorAll('input[data-purpose="honey-rc"]');
+                        },
+                        refreshAllTokens() {
+                            this.recaptchaInputs().forEach(input => window.Honey.recaptcha(input, input.dataset.action));
                         },
                     };
                     
                     window.addEventListener('load', () => {
                         grecaptcha.ready(() => {
-                           recaptchaInputs = document.querySelectorAll('input[data-purpose="honey-rc"]');
-                           recaptchaInputs.forEach(input => window.Honey.recaptcha(input, input.dataset.action));
-                           
-                           setInterval(() => {
-                                recaptchaInputs.forEach(input => window.Honey.recaptcha(input, input.dataset.action));
-                           }, {{ $tokenRefreshInterval() }})
+                           window.Honey.refreshAllTokens();
+                           setInterval(() => window.Honey.refreshAllTokens(), {{ $tokenRefreshInterval() }})
                         })    
+                    });
+                    
+                    document.addEventListener('livewire:load', function () {
+                        Livewire.hook('message.received', (message, component) => {
+                            if (!component.el.querySelector('input[data-purpose="honey-rc"]')) return;
+                            window.Honey.refreshAllTokens();
+                        });
                     });
                 </script>
             @endonce
