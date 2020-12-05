@@ -8,9 +8,9 @@ class StaticInputNameSelector implements InputNameSelector
 {
     protected $inputNames;
 
-    public function __construct(array $inputNames)
+    public function __construct()
     {
-        $this->inputNames = $inputNames;
+        $this->inputNames = config('honey.input_name_selectors.drivers.static.names');
     }
 
     public function getPresentButEmptyInputName(): string

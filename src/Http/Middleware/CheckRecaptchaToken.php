@@ -3,40 +3,34 @@
 
 namespace Lukeraymonddowning\Honey\Http\Middleware;
 
-
 use Illuminate\Http\Request;
-use Lukeraymonddowning\Honey\Exceptions\RecaptchaFailedException;
 use Lukeraymonddowning\Honey\Facades\Honey;
-use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 
 class CheckRecaptchaToken
 {
+    protected $request, $token;
 
     public function handle(Request $request, callable $next)
     {
-        if (!$token = $this->token($request)) {
-            Honey::fail();
-        }
+        $this->request = $request;
 
-        try {
-            Honey::recaptcha()->checkToken($token);
-        } catch (RecaptchaFailedException $exception) {
-            report($exception);
-            Honey::fail();
-        }
-
-        if (Honey::recaptcha()->isSpam()) {
-            Honey::fail();
-        }
+        collect($this->reasonsToFail())->filter()->whenNotEmpty(fn() => Honey::fail());
 
         return $next($request);
     }
 
-    protected function token(Request $request)
+    protected function reasonsToFail()
     {
-        return $request->{app(InputNameSelector::class)->getRecaptchaInputName()} ?? null;
+        return [
+            empty($this->token()),
+            empty(rescue(fn() => Honey::recaptcha()->checkToken($this->token()))),
+            rescue(fn() => Honey::recaptcha()->isSpam(), true)
+        ];
     }
 
-
+    protected function token()
+    {
+        return $this->token ??= $this->request->{Honey::inputs()->getRecaptchaInputName()};
+    }
 
 }

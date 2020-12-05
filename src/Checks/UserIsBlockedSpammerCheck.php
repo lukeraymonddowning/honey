@@ -10,7 +10,7 @@ use Lukeraymonddowning\Honey\Models\Spammer;
 
 class UserIsBlockedSpammerCheck implements Check
 {
-    public function passes($data): bool
+    public function passes($data)
     {
         if (!Features::spammerIpTrackingIsEnabled()) {
             return true;

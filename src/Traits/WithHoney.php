@@ -8,9 +8,6 @@ use Lukeraymonddowning\Honey\Facades\Honey;
 use Lukeraymonddowning\Honey\InputValues\Values;
 
 /**
- * Trait WithHoney
- * @package Lukeraymonddowning\Honey\Traits
- *
  * @property boolean honeyPassed
  */
 trait WithHoney

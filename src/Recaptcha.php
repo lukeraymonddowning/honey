@@ -10,8 +10,8 @@ use Lukeraymonddowning\Honey\Exceptions\RecaptchaFailedException;
 class Recaptcha
 {
     const URL = "https://www.google.com/recaptcha/api/siteverify";
-    protected $hooks = ['afterRequesting' => []];
     protected RecaptchaResponse $response;
+    protected $hooks = ['afterRequesting' => []];
 
     public function checkToken($token, $ip = null)
     {

@@ -10,11 +10,7 @@ class RecaptchaFailedException extends Exception
 {
     public function __construct($errorCodes)
     {
-        parent::__construct(
-            "The following errors were thrown when trying to resolve the recaptcha token: "
-            . collect($errorCodes)->join(", ", " and "),
-            0,
-            null
-        );
+        $errors = collect($errorCodes)->join(", ", " and ");
+        parent::__construct("The following errors were returned from the recaptcha token: $errors");
     }
 }
