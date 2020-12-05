@@ -16,9 +16,9 @@ class JavascriptInputFilledTest extends TestCase
         $check = app(JavascriptInputFilledCheck::class);
 
         $this->assertTrue($check->passes(['honey_javascript' => Values::javascript()->getValue()]));
-        $this->assertFalse($check->passes(['honey_javascript' => 'foobar']));
-        $this->assertFalse($check->passes(['honey_javascript' => '']));
-        $this->assertFalse($check->passes([]));
+        $this->assertEmpty($check->passes(['honey_javascript' => 'foobar']));
+        $this->assertEmpty($check->passes(['honey_javascript' => '']));
+        $this->assertEmpty($check->passes([]));
     }
     
 }

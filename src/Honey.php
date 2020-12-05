@@ -6,7 +6,6 @@ namespace Lukeraymonddowning\Honey;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 use Lukeraymonddowning\Honey\Models\Spammer;
 

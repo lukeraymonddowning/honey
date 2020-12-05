@@ -16,7 +16,6 @@ use Lukeraymonddowning\Honey\Http\Middleware\BlockSpammers;
 use Lukeraymonddowning\Honey\Http\Middleware\CheckRecaptchaToken;
 use Lukeraymonddowning\Honey\Http\Middleware\PreventSpam;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
-use Lukeraymonddowning\Honey\InputNameSelectors\StaticInputNameSelector;
 use Lukeraymonddowning\Honey\Recaptcha;
 use Lukeraymonddowning\Honey\Views\Honey as HoneyComponent;
 use Lukeraymonddowning\Honey\Views\Recaptcha as RecaptchaComponent;
@@ -27,79 +26,76 @@ class HoneyServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             'honey',
-            fn() => new Honey(static::getChecks(), self::defaultMethodOfFailing(), config('honey'))
+            fn() => new Honey(static::getChecks(), self::defaultMethodOfFailing(), static::config())
         );
         $this->app->singleton('honey-recaptcha', fn() => app(Recaptcha::class));
         $this->app->singleton(InputNameSelector::class, fn() => app(static::getInputNameSelectorClass()));
-        $this->app->singleton(
-            StaticInputNameSelector::class,
-            fn() => new StaticInputNameSelector(config('honey.input_name_selectors.drivers.static.names'))
-        );
     }
 
     protected static function getChecks()
     {
-        return collect(config('honey.checks', []))->map(fn($class) => app($class));
+        return collect(static::config('checks', []))->map(fn($class) => app($class));
+    }
+
+    public static function config($key = null, $default = null)
+    {
+        return config($key ? "honey.$key" : "honey", $default);
     }
 
     protected static function defaultMethodOfFailing()
     {
-        return function () {
-            if (Features::rickrollingEnabled()) {
-                throw new HttpResponseException(redirect('https://youtu.be/dQw4w9WgXcQ'));
-            }
+        return fn() => Features::rickrollingEnabled() ? static::rickroll() : abort(422, "You shall not pass!");
+    }
 
-            abort(422, "You shall not pass!");
-        };
+    protected static function rickroll()
+    {
+        throw new HttpResponseException(redirect('https://youtu.be/dQw4w9WgXcQ'));
     }
 
     protected static function getInputNameSelectorClass()
     {
-        $driver = config("honey.input_name_selectors.default");
-        return config("honey.input_name_selectors.drivers.$driver.class");
+        $driver = static::config("input_name_selectors.default", "static");
+        return static::config("input_name_selectors.drivers.$driver.class");
     }
 
     public function boot()
     {
         $this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'honey');
-
-        if ($this->app->runningInConsole()) {
-            $this->console();
-        }
-
+        $this->runConsoleCommands();
         $this->registerMiddleware();
-
-        Blade::component(HoneyComponent::class, 'honey');
-        Blade::component(RecaptchaComponent::class, 'honey-recaptcha');
+        $this->registerViewComponents();
     }
 
-    public function console()
+    protected function runConsoleCommands()
     {
+        if (!$this->app->runningInConsole()) {
+            return;
+        }
+
+        $this->publishes([__DIR__ . '/../../config/config.php' => config_path('honey.php')], 'honey');
+        $this->commands(InstallCommand::class);
+
         if (Features::spammerIpTrackingIsEnabled()) {
             $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
         }
-
-        $this->publishes(
-            [
-                __DIR__ . '/../../config/config.php' => config_path('honey.php'),
-            ],
-            'honey'
-        );
-
-        $this->commands(InstallCommand::class);
     }
 
     protected function registerMiddleware()
     {
-        $router = $this->app->make(Router::class);
+        $router = app(Router::class);
         $router->aliasMiddleware('honey', PreventSpam::class);
         $router->aliasMiddleware('honey-recaptcha', CheckRecaptchaToken::class);
         $router->aliasMiddleware('honey-block', BlockSpammers::class);
 
         if (Features::blockSpammersGloballyIsEnabled()) {
-            $kernel = $this->app->make(Kernel::class);
-            $kernel->pushMiddleware(BlockSpammers::class);
+            app(Kernel::class)->pushMiddleware(BlockSpammers::class);
         }
+    }
+
+    protected function registerViewComponents()
+    {
+        Blade::component(HoneyComponent::class, 'honey');
+        Blade::component(RecaptchaComponent::class, 'honey-recaptcha');
     }
 
 }

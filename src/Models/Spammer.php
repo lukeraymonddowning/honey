@@ -24,16 +24,13 @@ class Spammer extends Model
     public static function markAttempt($ip)
     {
         if (empty($ip)) {
-            return null;
+            return;
         }
 
-        $spammer = Spammer::firstOrNew(['ip_address' => $ip], ['attempts' => 0]);
-        $spammer->attempts++;
-        if ($spammer->attempts == config('honey.spammer_blocking.maximum_attempts')) {
-            $spammer->blocked_at = now();
-        }
-
-        $spammer->save();
+        Spammer::firstOrNew(['ip_address' => $ip], ['attempts' => 0])
+            ->incrementAttempts()
+            ->blockIfNeeded()
+            ->save();
     }
 
     public function scopeBlocked($query)
@@ -44,6 +41,21 @@ class Spammer extends Model
     public function getTable()
     {
         return config('honey.spammer_blocking.table_name');
+    }
+
+    protected function incrementAttempts()
+    {
+        $this->attempts++;
+        return $this;
+    }
+
+    protected function blockIfNeeded()
+    {
+        if ($this->attempts == config('honey.spammer_blocking.maximum_attempts', 5)) {
+            $this->blocked_at = now();
+        }
+
+        return $this;
     }
 
 }
