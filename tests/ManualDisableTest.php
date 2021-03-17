@@ -5,6 +5,7 @@ namespace Lukeraymonddowning\Honey\Tests;
 
 
 use Lukeraymonddowning\Honey\Facades\Honey;
+use Lukeraymonddowning\Honey\Http\Middleware\CheckRecaptchaToken;
 
 class ManualDisableTest extends TestCase
 {
@@ -15,6 +16,22 @@ class ManualDisableTest extends TestCase
         $this->assertTrue(Honey::isEnabled());
         Honey::disable();
         $this->assertFalse(Honey::isEnabled());
+    }
+
+    /** @test */
+    public function the_recaptcha_middleware_stack_completes_when_disabled()
+    {
+        Honey::disable();
+
+        $this->expectExceptionObject(new \Exception("Hello world"));
+
+        $middleware = new CheckRecaptchaToken();
+
+        $request = request()->replace([Honey::inputs()->getRecaptchaInputName() => 'foobar']);
+
+        $middleware->handle($request, function() {
+            throw new \Exception("Hello world");
+        });
     }
     
 }

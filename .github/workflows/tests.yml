@@ -24,7 +24,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
-        extensions: mbstring, intl, fileinfo
+        extensions: mbstring, intl, fileinfo, pdo_sqlite
         ini-values: post_max_size=256M, max_execution_time=180
         coverage: xdebug
         tools: php-cs-fixer, phpunit
