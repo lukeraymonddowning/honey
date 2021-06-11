@@ -139,7 +139,7 @@ Honey provides you all the power you could ever wish for via the `Honey` Facade.
 do the following:
 
 ```php
-$token = request()->honey_recapture_token;
+$token = request()->honey_recaptcha_token;
 $response = Honey::recaptcha()->check($token);
 ```
 
@@ -147,7 +147,7 @@ The response will return a `RecaptchaResponse` object with properties as defined
 This class implements `ArrayAccess`, so you can use array syntax as if you were working with a JSON response.
 
 ```php
-$token = request()->honey_recapture_token;
+$token = request()->honey_recaptcha_token;
 $score = Honey::recaptcha()->check($token)['score'];
 ```
 
@@ -155,7 +155,7 @@ If you want to quickly ascertain if the request is spam based on your configured
 `isSpam` method after calling the `check` method.
 
 ```php
-$token = request()->honey_recapture_token;
+$token = request()->honey_recaptcha_token;
 $probablyABot = Honey::recaptcha()->check($token)->isSpam();
 ``` 
 
