@@ -42,7 +42,7 @@ class Honey
         $this->isEnabled = false;
     }
     
-    public function disable()
+    public function enable()
     {
         $this->isEnabled = true;
     }
