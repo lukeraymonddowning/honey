@@ -9,7 +9,7 @@ use Lukeraymonddowning\Honey\Facades\Honey;
 use Lukeraymonddowning\Honey\Http\Middleware\CheckRecaptchaToken;
 
 
-class ManualDisableTest extends TestCase
+class ManualEnableDisableTest extends TestCase
 {
 
     /** @test */
