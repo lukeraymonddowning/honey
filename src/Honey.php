@@ -41,6 +41,11 @@ class Honey
     {
         $this->isEnabled = false;
     }
+    
+    public function enable()
+    {
+        $this->isEnabled = true;
+    }
 
     protected function registerSpammerTracking()
     {
