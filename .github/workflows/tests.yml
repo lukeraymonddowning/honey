@@ -22,7 +22,7 @@ jobs:
           - laravel: 9.*
             testbench: ^7.0
 
-    name: PHP ${{ matrix.php }} Test on ${{ matrix.os }}
+    name: PHP ${{ matrix.php }} Test on ${{ matrix.os }} with Laravel ${{ matrix.laravel }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
