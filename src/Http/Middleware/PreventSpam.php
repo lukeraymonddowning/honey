@@ -11,7 +11,11 @@ class PreventSpam
 
     public function handle(Request $request, callable $next)
     {
-        return Honey::check($request->all()) ? $next($request) : Honey::fail();
+        $method = $request->method();
+ 
+        if ($request->isMethod('post')) {
+            return Honey::check($request->all()) ? $next($request) : Honey::fail();
+        }
     }
 
 }
