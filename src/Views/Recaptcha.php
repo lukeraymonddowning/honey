@@ -19,8 +19,8 @@ class Recaptcha extends Component
     {
         return <<<'blade'
             @once
-                <script src="https://www.google.com/recaptcha/api.js?render={{ $siteKey() }}" defer></script>
-                <script>
+                <script type="application/javascript" src="https://www.google.com/recaptcha/api.js?render={{ $siteKey() }}" defer></script>
+                <script type="application/javascript">
                     window.Honey = {
                         recaptcha(el, action = 'submit') {
                             grecaptcha.execute('{{ $siteKey() }}', { action }).then(token => {
@@ -35,14 +35,14 @@ class Recaptcha extends Component
                             this.recaptchaInputs().forEach(input => window.Honey.recaptcha(input, input.dataset.action));
                         },
                     };
-                    
+
                     window.addEventListener('load', () => {
                         grecaptcha.ready(() => {
                            window.Honey.refreshAllTokens();
                            setInterval(() => window.Honey.refreshAllTokens(), {{ $tokenRefreshInterval() }})
-                        })    
+                        })
                     });
-                    
+
                     document.addEventListener('livewire:load', function () {
                         window.addEventListener('recaptcha-refresh-required', () => {
                             window.Honey.refreshAllTokens();
@@ -52,7 +52,7 @@ class Recaptcha extends Component
             @endonce
             <input wire:model.lazy.defer="honeyInputs.{{ $inputName }}"
                    {{ $attributes }}
-                   type="hidden" 
+                   type="hidden"
                    data-purpose="honey-rc"
                    data-action="{{ $attributes['action'] ?? 'submit' }}"
                    name="{{ $inputName }}">
@@ -73,5 +73,4 @@ class Recaptcha extends Component
     {
         return static::config()['token_refresh_interval'];
     }
-
 }

@@ -3,7 +3,6 @@
 
 namespace Lukeraymonddowning\Honey\Views;
 
-
 use Illuminate\View\Component;
 use Lukeraymonddowning\Honey\InputNameSelectors\InputNameSelector;
 use Lukeraymonddowning\Honey\InputValues\Values;
@@ -22,7 +21,7 @@ class Honey extends Component
         return <<<'blade'
                @if (in_array(\Lukeraymonddowning\Honey\Checks\JavascriptInputFilledCheck::class, config('honey.checks')))
                     @once
-                        <script>
+                        <script type="application/javascript">
                             window.addEventListener('load', () => {
                                 setTimeout(() => {
                                     document.querySelectorAll('input[data-purpose="{{ $inputNameSelector->getJavascriptInputName() }}"]')
@@ -30,7 +29,7 @@ class Honey extends Component
                                             if (input.value.length > 0) {
                                                 return;
                                             }
-                                            
+
                                             input.value = "{{ $javascriptValue() }}";
                                             input.dispatchEvent(new Event('change'));
                                         });
@@ -44,7 +43,7 @@ class Honey extends Component
                     <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ $timeOfPageLoadValue() }}">
                     <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getJavascriptInputName() }}" data-purpose="{{ $inputNameSelector->getJavascriptInputName() }}" name="{{ $inputNameSelector->getJavascriptInputName() }}" value="">
                     {{ $slot }}
-                </div>     
+                </div>
                 @isset($attributes['recaptcha'])
                     <x-honey-recaptcha :action="$attributes['recaptcha'] === true ? 'submit' : $attributes['recaptcha']"/>
                 @endisset
