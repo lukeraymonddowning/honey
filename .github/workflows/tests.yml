@@ -21,6 +21,9 @@ jobs:
             testbench: ^7.0
           - laravel: 10.*
             testbench: ^8.0
+        exclude:
+          - laravel: 10.*
+            php: '8.0'
 
     name: PHP ${{ matrix.php }} Test on ${{ matrix.os }} with Laravel ${{ matrix.laravel }}
     steps:

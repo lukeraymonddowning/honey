@@ -41,5 +41,7 @@
         "Honey": "Lukeraymonddowning\\Honey\\Facades\\Honey"
       }
     }
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
