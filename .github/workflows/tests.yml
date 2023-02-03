@@ -22,7 +22,7 @@ jobs:
           - laravel: 10.*
             testbench: ^8.0
 
-    name: PHP ${{ matrix.php }} Test on ${{ matrix.os }} with Laravel ${{ matrix.laravel }}
+    name: PHP ${{ matrix.php }} Test on ${{ matrix.os }} with Laravel ${{ matrix.laravel }}, ${{ matrix.stability }}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -32,20 +32,7 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate
-
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: vendor
-        key: ${{ matrix.os }}-php-${{ matrix.php }}-${{ matrix.laravel }}-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ matrix.os }}-php-${{ matrix.php }}-laravel-${{ matrix.laravel }}
-
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
       run: |
         composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --ansi
         composer update --${{ matrix.stability }} --prefer-dist --no-interaction --ansi
