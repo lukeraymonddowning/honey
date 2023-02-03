@@ -42,8 +42,6 @@ Honey is now successfully installed!
 
 ## Upgrading
 
-> :warning: 0.3.0 has a number of tiny breaking changes. Check out the upgrade guide in UPGRADE.md
-
 We document any changes in the UPGRADE.md file.
 
 ## Usage
