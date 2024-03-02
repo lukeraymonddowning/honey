@@ -1,47 +1,47 @@
 {
-  "name": "lukeraymonddowning/honey",
-  "description": "Reduce spam on your Laravel site.",
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "luke",
-      "email": "lukeraymonddowning@gmail.com"
-    }
-  ],
-  "scripts": {
-    "test": "php vendor/bin/phpunit"
-  },
-  "require": {
-    "php": "^8.1",
-    "illuminate/support": "^9.49|^10.0",
-    "guzzlehttp/guzzle": "^7.2"
-  },
-  "require-dev": {
-    "orchestra/testbench": "^7.0|^8.0",
-    "livewire/livewire": "^2.11"
-  },
-  "autoload": {
-    "psr-4": {
-      "Lukeraymonddowning\\Honey\\": "src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Lukeraymonddowning\\Honey\\Tests\\": "tests",
-      "Lukeraymonddowning\\Honey\\Tests\\Factories\\": "database/factories"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Lukeraymonddowning\\Honey\\Providers\\HoneyServiceProvider"
-      ],
-      "aliases": {
-        "Honey": "Lukeraymonddowning\\Honey\\Facades\\Honey"
-      }
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "name": "lukeraymonddowning/honey",
+    "description": "Reduce spam on your Laravel site.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "luke",
+            "email": "lukeraymonddowning@gmail.com"
+        }
+    ],
+    "scripts": {
+        "test": "php vendor/bin/phpunit"
+    },
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^9.49|^10.0|^11.0",
+        "guzzlehttp/guzzle": "^7.2"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.0|^8.0|^9.0",
+        "livewire/livewire": "^2.11|^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lukeraymonddowning\\Honey\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lukeraymonddowning\\Honey\\Tests\\": "tests",
+            "Lukeraymonddowning\\Honey\\Tests\\Factories\\": "database/factories"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lukeraymonddowning\\Honey\\Providers\\HoneyServiceProvider"
+            ],
+            "aliases": {
+                "Honey": "Lukeraymonddowning\\Honey\\Facades\\Honey"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
