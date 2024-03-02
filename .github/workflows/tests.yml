@@ -2,40 +2,49 @@ name: Tests
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   run:
     runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
         php: ['8.1', '8.2']
-        laravel: [9.*, 10.*]
+        laravel: ['9.*', '10.*', '11.*']
         stability: [prefer-lowest, prefer-stable]
         include:
           - laravel: 9.*
             testbench: ^7.0
           - laravel: 10.*
             testbench: ^8.0
+          - laravel: 11.*
+            testbench: ^9.0
+        exclude:
+          - laravel: 11.*
+            php: '8.1'
 
     name: PHP ${{ matrix.php }} Test on ${{ matrix.os }} with Laravel ${{ matrix.laravel }}, ${{ matrix.stability }}
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php }}
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
 
-    - name: Install dependencies
-      run: |
-        composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --ansi
-        composer update --${{ matrix.stability }} --prefer-dist --no-interaction --ansi
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --ansi
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction --ansi
 
-    - name: Run tests
-      run: composer test
+      - name: Run tests
+        run: composer test
