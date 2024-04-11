@@ -88,7 +88,7 @@ class HoneyFormTraitTest extends TestCase
     }
     
     /** @test */
-    public function when_the_recaptcha_token_is_checked_a_browser_event_is_dispatched()
+    public function when_the_recaptcha_token_is_checked_an_event_is_dispatched()
     {
         Http::fake(['*' => [
             'success' => true,
@@ -101,11 +101,11 @@ class HoneyFormTraitTest extends TestCase
 
         $test = Livewire::test(AnotherExample::class);
         $test->call('checkRecaptcha');
-        $test->assertDispatchedBrowserEvent('recaptcha-refresh-required');
+        $test->assertDispatched('recaptcha-refresh-required');
     }
 
     /** @test */
-    public function when_recaptcha_is_checked_manually_in_a_livewire_component_a_browser_event_is_dispatched()
+    public function when_recaptcha_is_checked_manually_in_a_livewire_component_an_event_is_dispatched()
     {
         Http::fake(['*' => [
             'success' => true,
@@ -118,7 +118,7 @@ class HoneyFormTraitTest extends TestCase
 
         $test = Livewire::test(AnotherExample::class);
         $test->call('manualRecaptchaCheck');
-        $test->assertDispatchedBrowserEvent('recaptcha-refresh-required');
+        $test->assertDispatched('recaptcha-refresh-required');
     }
 }
 

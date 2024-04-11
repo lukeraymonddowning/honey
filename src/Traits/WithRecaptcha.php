@@ -20,7 +20,7 @@ trait WithRecaptcha
 
     public function requestRecaptchaTokenRefresh()
     {
-        $this->dispatchBrowserEvent('recaptcha-refresh-required');
+        $this->dispatch('recaptcha-refresh-required');
     }
 
     public function mountWithRecaptcha()

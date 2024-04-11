@@ -25,7 +25,7 @@ class Recaptcha extends Component
                         recaptcha(el, action = 'submit') {
                             grecaptcha.execute('{{ $siteKey() }}', { action }).then(token => {
                                 el.value = token;
-                                el.dispatchEvent(new Event('change'));
+                                el.dispatchEvent(new Event('input'));
                             });
                         },
                         recaptchaInputs() {
@@ -43,14 +43,14 @@ class Recaptcha extends Component
                         })
                     });
 
-                    document.addEventListener('livewire:load', function () {
+                    document.addEventListener('livewire:init', function () {
                         window.addEventListener('recaptcha-refresh-required', () => {
                             window.Honey.refreshAllTokens();
                         });
                     });
                 </script>
             @endonce
-            <input wire:model.lazy.defer="honeyInputs.{{ $inputName }}"
+            <input wire:model="honeyInputs.{{ $inputName }}"
                    {{ $attributes }}
                    type="hidden"
                    data-purpose="honey-rc"
