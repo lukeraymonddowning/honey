@@ -31,7 +31,7 @@ class Honey extends Component
                                             }
 
                                             input.value = "{{ $javascriptValue() }}";
-                                            input.dispatchEvent(new Event('change'));
+                                            input.dispatchEvent(new Event('input'));
                                         });
                                 }, {{ $javascriptTimeout() }})
                             });
@@ -39,9 +39,9 @@ class Honey extends Component
                     @endonce
                 @endif
                 <div style="display: @isset($attributes['debug']) block @else none @endisset;">
-                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getPresentButEmptyInputName() }}" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
-                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ $timeOfPageLoadValue() }}">
-                    <input wire:model.lazy.defer="honeyInputs.{{ $inputNameSelector->getJavascriptInputName() }}" data-purpose="{{ $inputNameSelector->getJavascriptInputName() }}" name="{{ $inputNameSelector->getJavascriptInputName() }}" value="">
+                    <input wire:model="honeyInputs.{{ $inputNameSelector->getPresentButEmptyInputName() }}" name="{{ $inputNameSelector->getPresentButEmptyInputName() }}" value="">
+                    <input wire:model="honeyInputs.{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" name="{{ $inputNameSelector->getTimeOfPageLoadInputName() }}" value="{{ $timeOfPageLoadValue() }}">
+                    <input wire:model="honeyInputs.{{ $inputNameSelector->getJavascriptInputName() }}" data-purpose="{{ $inputNameSelector->getJavascriptInputName() }}" name="{{ $inputNameSelector->getJavascriptInputName() }}" value="">
                     {{ $slot }}
                 </div>
                 @isset($attributes['recaptcha'])
