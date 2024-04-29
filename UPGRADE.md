@@ -3,6 +3,9 @@
 Here, we document everything you need to do to upgrade when there is a breaking change to Honey. Don't worry, it's
 usually a matter of seconds.
 
+## Upgrading to 1.0
+If you're using Livewire v2, you'll need to upgrade to v3 before you can use Honey ^1.0.
+
 ## Upgrading from 0.2 to 0.3
 Honey 0.3.0 removed the dependency for Alpine JS. This means that some of the class names have changed. The easiest way
 to upgrade is to delete and re-publish your config file. However, if you don't want to do that, you can manually
