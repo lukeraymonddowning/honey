@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Lukeraymonddowning\Honey\Views;
 
 use Illuminate\View\Component;
@@ -10,12 +9,14 @@ class Recaptcha extends Component
 {
     public $inputName;
 
+    protected $siteKey;
+
     public function __construct(InputNameSelector $inputNameSelector)
     {
         $this->inputName = $inputNameSelector->getRecaptchaInputName();
     }
 
-    public function render(callable $callback = null)
+    public function render(?callable $callback = null)
     {
         return <<<'blade'
             @once
